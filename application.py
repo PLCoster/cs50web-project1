@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session
+from flask import Flask, session, flash, jsonify, redirect, render_template, request
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -23,4 +23,14 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
-    return "Project 1: TODO"
+    return render_template("login.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    """Log user into site"""
+
+    # Clear any current user ID:
+    session.clear()
+
+    # If User reaches Route via GET (e.g. clicking login link):
+    return render_template("login.html")

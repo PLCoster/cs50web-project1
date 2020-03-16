@@ -1,0 +1,267 @@
+/* Custom CSS Styles to override Bootstrap */
+/* 273E47
+  BD632F
+  D8973C
+  EDE6D1
+  A4243B
+
+  light bg
+  #E9ECEF
+
+
+/*
+  ========================================
+  SASS Variables
+  ========================================
+*/
+/*
+  ========================================
+  Custom styles
+  ========================================
+*/
+body {
+  background-color: #E9ECEF;
+  color: #273E47;
+  font: 300 16px/22px "Lato", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4 {
+  color: #273E47;
+}
+
+h1 {
+  font-size: 32px;
+  line-height: 44px;
+}
+
+h2 {
+  font-size: 28px;
+  line-height: 30px;
+}
+
+h3 {
+  font-size: 21px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+strong {
+  font-weight: 400;
+}
+
+cite, em {
+  font-style: italic;
+}
+
+.text-muted {
+  color: #273E47;
+}
+
+/*
+==========================
+NAVBAR
+==========================
+*/
+#navbar {
+  font-weight: 400;
+  background-color: #273E47;
+}
+
+#logo {
+  color: #DFA95F;
+}
+
+#logo:hover {
+  color: #EDE6D1;
+}
+
+/*
+==========================
+JUMBOTRON
+==========================
+*/
+.jumbotron {
+  padding-bottom: 0;
+  margin-top: 20px;
+}
+.jumbotron .lead {
+  font-size: 18px;
+}
+
+.cat-img {
+  display: block;
+  max-width: 720px;
+  width: 100%;
+  border-radius: 20px;
+  margin: auto;
+  margin-bottom: 20px;
+  border: 1px gray solid;
+}
+
+/*
+==========================
+FOOTER
+==========================
+*/
+#footer {
+  color: #DFA95F;
+  background-color: #273E47;
+}
+
+/*
+===========================
+CONTAINER
+===========================
+*/
+.container {
+  background-color: #FFF;
+}
+
+/*
+===========================
+BUTTONS
+===========================
+*/
+.btn-primary, .btn-primary:hover {
+  color: #DFA95F;
+  background-color: #273E47;
+  border-color: #273E47;
+}
+
+.btn-primary:hover {
+  color: #EDE6D1;
+}
+
+.new-nick {
+  margin-bottom: 20px;
+}
+
+/*
+==========================
+TABLES
+==========================
+*/
+table.table {
+  margin-bottom: 5px;
+}
+
+th, td {
+  font-size: 12px;
+  line-height: 12px;
+}
+
+/*
+==========================
+LOGIN
+==========================
+*/
+body.login {
+  background-image: url("login_bg.jpg");
+}
+
+.login .container {
+  margin-top: 50px;
+  border-radius: 10px;
+  border: 1px solid grey;
+  background-color: #FFF;
+  -webkit-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
+  -moz-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
+  box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
+  max-width: 420px;
+}
+
+.login .btn {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/*
+==========================
+BLOG
+==========================
+*/
+.blog-main {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+/* Inherit from cat img */
+.blog-post img.blog-img.center {
+  display: block;
+  max-height: 300px;
+  max-width: 100%;
+  margin: auto;
+  border: 1px gray solid;
+}
+
+img.blog-img + p, table + p {
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/*
+==========================
+PROJECTS
+==========================
+*/
+p.tech-icons {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+/*
+=============================
+RESPONSIVE
+=============================
+*/
+@media print {
+  .nickname-gen {
+    display: none;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .blog-post img.blog-img.center {
+    max-width: 90vw;
+    min-width: 300px;
+  }
+}
