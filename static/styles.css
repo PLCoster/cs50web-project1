@@ -86,25 +86,27 @@ NAVBAR
 
 /*
 ==========================
-JUMBOTRON
+ANOUNCEMENT
 ==========================
 */
-.jumbotron {
+.announcement { /* inherit from login container etc */
   padding-bottom: 0;
-  margin-top: 20px;
-}
-.jumbotron .lead {
-  font-size: 18px;
+  margin-top: 50px;
+  max-width: 900px;
+  border-radius: 10px;
+  border: 1px solid grey;
+  -webkit-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
+  -moz-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
+  box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
 }
 
-.cat-img {
-  display: block;
-  max-width: 720px;
-  width: 100%;
-  border-radius: 20px;
+.announcement .row {
+  margin-top: 20px;
+}
+
+.announcement img {
+  max-width: 250px;
   margin: auto;
-  margin-bottom: 20px;
-  border: 1px gray solid;
 }
 
 /*

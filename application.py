@@ -23,7 +23,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
-    return render_template("login.html")
+    return render_template("home.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
