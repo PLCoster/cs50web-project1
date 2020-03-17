@@ -19,25 +19,71 @@
   </head>
 
   <body class="text-center login">
-    <div class="container">
-      <form class="form-signin">
-        <img class="mb-4" src="/static/book_icon.png" alt="" width="72" height="72">
-        <h3 class="mb-3 font-weight-normal">Please sign in to continue</h3>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <!-- Remember me Checkbox
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
+
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark" id="navbar">
+        <a class="navbar-brand" id="logo" href="index.html">
+          <img src="/static/nav_logo.png" alt="" width="42" height="42">
+          <span>READ-RATE</span>
+        </a>
+        <!--Navbar buttons-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="projects.html">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="blog.html">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href=https://github.com/PLCoster><i class="fa fa-github"></i> Github</a>
+            </li>
+            <li class="nav-item" id="test">
+              <a class="nav-link" href="https://uk.linkedin.com/in/paul-coster-a29b3948"><i class="fa fa-linkedin"> </i> LinkedIn</a>
+            </li>
+          </ul>
         </div>
-        !-->
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        <p class="mb-3 text-muted">Not registered? <a href="/register">Click here to Sign Up!</a></p>
-      </form>
-    </div>
+      </nav>
+    </header>
+
+    <main>
+      <!--Login Container-->
+      <div class="container">
+        <form class="form-signin">
+          <img class="mb-4" src="/static/book_icon.png" alt="" width="72" height="72">
+          <h3 class="mb-3 font-weight-normal">Please sign in to continue:</h3>
+          <label for="inputEmail" class="sr-only">Email address</label>
+          <input type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
+          <label for="inputPassword" class="sr-only">Password</label>
+          <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+          <!-- Remember me Checkbox
+          <div class="checkbox mb-3">
+            <label>
+              <input type="checkbox" value="remember-me"> Remember me
+            </label>
+          </div>
+          !-->
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+          <p class="mb-3 text-muted">Not registered? <a href="/register">Click here to Sign Up!</a></p>
+        </form>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-text">Background image Photo by <a href="https://www.pexels.com/@thepoorphotographer">Janko Ferlic via Pexels.</a></p>
+      <p class="footer-text">&copy; 2020 P.L.Coster. </p>
+    </footer>
 
     <!-- Bootstrap JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
