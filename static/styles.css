@@ -67,16 +67,21 @@ NAVBAR
 ==========================
 */
 #navbar {
-  font-weight: 700;
   background-color: #7EB1D4;
 }
 
 #logo {
+  font-weight: 700;
   color: #515D73;
 }
 
 #logo:hover {
   color: #333;
+}
+
+.navbar-nav .nav-item .nav-link {
+  font-weight: 700;
+  color: #FFF;
 }
 
 /*
@@ -161,14 +166,14 @@ th, td {
 
 /*
 ==========================
-LOGIN
+LOGIN and REGISTER
 ==========================
 */
 body {
   background-image: url("login_bg.jpg");
 }
 
-.login.container {
+.login.container, .register.container {
   margin-top: 100px;
   border-radius: 10px;
   border: 1px solid grey;
@@ -179,7 +184,7 @@ body {
   max-width: 420px;
 }
 
-.login .btn {
+.login .btn, .register .btn {
   margin-top: 30px;
   margin-bottom: 10px;
 }
@@ -203,17 +208,22 @@ body {
   z-index: 2;
 }
 
-.form-signin input[type="text"] {
+.login .form-signin input[type="text"], .register #inputPassword {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.form-signin input[type="password"] {
+.login .form-signin input[type="password"], .register #checkPassword {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.register #inputPassword {
+  margin-top: 20px;
+}
+
 
 /*
 ==========================

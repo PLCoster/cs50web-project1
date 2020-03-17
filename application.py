@@ -34,3 +34,13 @@ def login():
 
     # If User reaches Route via GET (e.g. clicking login link):
     return render_template("login.html")
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    """Register user for the website"""
+
+    # Clear any current user ID:
+    session.clear()
+
+    # If User reaches Route via GET (e.g. clicking login link):
+    return render_template("register.html")
