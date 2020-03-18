@@ -44,3 +44,14 @@ def register():
 
     # If User reaches Route via GET (e.g. clicking login link):
     return render_template("register.html")
+
+@app.route("/api/<isbn>")
+def book_api(isbn):
+    """Get a book from the database using its ISBN"""
+    print("accessing API")
+    print(isbn)
+    # Check book exists in database:
+    book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn":isbn}).fetchall()
+    print(book)
+
+    return book[0][2]
