@@ -86,18 +86,17 @@ NAVBAR
 
 /*
 ==========================
-ANOUNCEMENT
+JUMBOTRON
 ==========================
 */
-.announcement { /* inherit from login container etc */
+
+.jumbotron {
+  background: none;
+}
+
+.jumbotron .container { /* inherit from login container etc */
   padding-bottom: 0;
-  margin-top: 50px;
-  max-width: 900px;
-  border-radius: 10px;
-  border: 1px solid grey;
-  -webkit-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
-  -moz-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
-  box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
+  margin: auto;
 }
 
 .announcement .row {
@@ -105,8 +104,7 @@ ANOUNCEMENT
 }
 
 .announcement img {
-  max-width: 250px;
-  margin: auto;
+  border-style: none;
 }
 
 /*
@@ -131,7 +129,18 @@ CONTAINER
 */
 .container {
   background-color: #FFF;
+  border-radius: 10px;
+  border: 1px solid grey;
+  -webkit-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
+  -moz-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
+  box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
 }
+
+.container h1, .container h2, .container .row {
+  padding-top: 20px;
+}
+
+
 
 /*
 ===========================
