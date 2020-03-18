@@ -50,8 +50,24 @@ def book_api(isbn):
     """Get a book from the database using its ISBN"""
     print("accessing API")
     print(isbn)
-    # Check book exists in database:
+    # Try and get book from the database:
     book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn":isbn}).fetchall()
+
+    # If book exists, return JSON:
+    if book:
+        return jsonify({
+            "title": book[0][2],
+            "author": book[0][3],
+            "year": book[0][4],
+            "isbn": book[0][1],
+            "review_count": book[0][5],
+            "average_score": book[0][6]
+        })
+    # If book not in database, return error:
+    else:
+        return jsonify({"error": "Book ISBN is not in READ-RATE Database"}), 422
+
+
     print(book)
 
     return book[0][2]
