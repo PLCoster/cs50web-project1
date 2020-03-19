@@ -27,7 +27,11 @@ def index():
     # Lucky Dip Section - select 4 random books:
     lucky = db.execute("SELECT * FROM books ORDER BY RANDOM() LIMIT 4").fetchall()
 
-    return render_template("home.html", lucky=lucky)
+    # Author Explore Section - select up to 4 books from an author:
+    author = db.execute("SELECT * FROM books WHERE author in (SELECT author FROM books GROUP BY author ORDER BY RANDOM() LIMIT 1) LIMIT 4").fetchall()
+
+    return render_template("home.html", lucky=lucky, author=author)
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -39,6 +43,7 @@ def login():
     # If User reaches Route via GET (e.g. clicking login link):
     return render_template("login.html")
 
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user for the website"""
@@ -48,6 +53,7 @@ def register():
 
     # If User reaches Route via GET (e.g. clicking login link):
     return render_template("register.html")
+
 
 @app.route("/api/<isbn>")
 def book_api(isbn):
