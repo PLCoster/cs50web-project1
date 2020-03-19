@@ -46,7 +46,7 @@ h3 {
 }
 
 h4 {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 strong {
@@ -172,6 +172,45 @@ th, td {
   font-size: 12px;
   line-height: 12px;
 }
+
+/*
+==========================
+CARDS
+==========================
+*/
+
+.card {
+  background-color: none;
+}
+
+.card:hover {
+  background-color:  rgba(50, 50, 50, 0.03);
+}
+
+.card-body {
+  padding-bottom: 0px;
+}
+
+a .card-subtitle {
+  font-size: 12px;
+  color:  #515D73;
+  text-decoration: none;
+}
+
+.card .star-rating {
+  float: left;
+  width: 80px;
+}
+
+.card .num-ratings {
+  margin-left: 84px;
+  padding-bottom: none;
+  line-height: 20px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+
 
 /*
 ==========================

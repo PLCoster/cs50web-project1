@@ -20,15 +20,35 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
+def add_star_img(book_list):
+    """ Helper fuinction to add correct star rating imgs to each book"""
+
+    new_book_list = []
+
+    for book in book_list:
+        new_book = list(book)
+        rating = book[6]
+        if rating == None:
+            new_book.append('no_rating.png')
+        else:
+            new_book.append(str(round(rating)) + '_star.png')
+        new_book_list.append(new_book)
+
+    return new_book_list
+
 
 @app.route("/")
 def index():
 
     # Lucky Dip Section - select 4 random books:
-    lucky = db.execute("SELECT * FROM books ORDER BY RANDOM() LIMIT 4").fetchall()
+    lucky = db.execute("SELECT * FROM books ORDER BY RANDOM() LIMIT 6").fetchall()
+
+    lucky = add_star_img(lucky)
 
     # Author Explore Section - select up to 4 books from an author:
-    author = db.execute("SELECT * FROM books WHERE author in (SELECT author FROM books GROUP BY author ORDER BY RANDOM() LIMIT 1) LIMIT 4").fetchall()
+    author = db.execute("SELECT * FROM books WHERE author in (SELECT author FROM books GROUP BY author ORDER BY RANDOM() LIMIT 1) LIMIT 6").fetchall()
+
+    author = add_star_img(author)
 
     return render_template("home.html", lucky=lucky, author=author)
 
