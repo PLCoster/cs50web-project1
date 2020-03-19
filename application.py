@@ -23,7 +23,11 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
-    return render_template("home.html")
+
+    # Lucky Dip Section - select 4 random books:
+    lucky = db.execute("SELECT * FROM books ORDER BY RANDOM() LIMIT 4").fetchall()
+
+    return render_template("home.html", lucky=lucky)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

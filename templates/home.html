@@ -17,72 +17,28 @@
 
   <!-- Reviews Grid -->
   <div class="container text-left">
-    <h2>Highest Rated Books This Month:</h2>
+    <h2>Lucky Dip:</h2>
     <div class="row">
-      <div class="col-md-3 col-sm-4 col-xs-6">
-        <div class="card mb-4 shadow-sm">
-          <img src="assets/Projects/CS50W.png" class="card-img-top" alt="CS0Web Logo">
-          <div class="card-body">
-            <h3 class="card-title">Placeholder</h3>
-            <p class="card-text">Placeholder Book</p>
-            <!--
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
+      {% for book in lucky %}
+        <div class="col-md-3 col-sm-4 col-xs-6 py-2">
+          <a href="#" >
+          <div class="card mb-4 shadow-sm h-100">
+            <img src="http://covers.openlibrary.org/b/isbn/{{ book[1]}}-L.jpg?default=false" class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
+            <div class="card-body">
+              <h3 class="card-title">{{ book[2] }}</h3>
+              <p class="card-text">{{ book[3] }}</p>
+              <!--
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
                 <a href="about.html" class="btn btn-primary">About</a>
+                </div>
               </div>
+              !-->
             </div>
-            !-->
           </div>
+          </a>
         </div>
-      </div>
-      <div class="col-md-3 col-sm-4 col-xs-6">
-        <div class="card mb-4 shadow-sm">
-          <img src="assets/Projects/CS50W.png" class="card-img-top" alt="CS0Web Logo">
-          <div class="card-body">
-            <h3 class="card-title">Placeholder</h3>
-            <p class="card-text">Placeholder Book</p>
-            <!--
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <a href="about.html" class="btn btn-primary">About</a>
-              </div>
-            </div>
-            !-->
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-4 col-xs-6">
-        <div class="card mb-4 shadow-sm">
-          <img src="assets/Projects/CS50W.png" class="card-img-top" alt="CS0Web Logo">
-          <div class="card-body">
-            <h3 class="card-title">Placeholder</h3>
-            <p class="card-text">Placeholder Book</p>
-            <!--
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <a href="about.html" class="btn btn-primary">About</a>
-              </div>
-            </div>
-            !-->
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-4 col-xs-4">
-        <div class="card mb-4 shadow-sm">
-          <img src="assets/Projects/CS50W.png" class="card-img-top" alt="CS0Web Logo">
-          <div class="card-body">
-            <h3 class="card-title">Placeholder</h3>
-            <p class="card-text">Placeholder Book</p>
-            <!--
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <a href="about.html" class="btn btn-primary">About</a>
-              </div>
-            </div>
-            !-->
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
     <hr>
     <h2>Recent Reviews:</h2>
