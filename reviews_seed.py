@@ -2,11 +2,9 @@
 import os
 import csv
 import random
-from datetime import datetime
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from werkzeug.security import generate_password_hash
 
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
@@ -40,7 +38,8 @@ five_star = ["Fantastic - already reading again!", "Enjoyed this book so much, I
 review_map = {1 : one_star, 2 : two_star, 3 : three_star, 4 : four_star, 5: five_star}
 
 # Create 10-20 random reviews for a random book for each user:
-for name in namelist:
+# for name in namelist:
+for name in namelist[:1]:
 
   # Get user_id and review_count:
   user = db.execute("SELECT * FROM users WHERE username = :username", {"username": name}).fetchall()
@@ -61,18 +60,33 @@ for name in namelist:
 
     book_id = book[0][0]
 
-    now = datetime.now()
-    date = now.date()
-    print(date)
-    time = now.strftime("%H:%M:%S")
-
     # Generate a semi-random review date
+    year = str(random.randint(2015, 2020))
+    month = f'{random.randint(1, 12):02}'
+    day = f'{random.randint(1, 28):02}'
 
+    hr  = f'{random.randint(0, 23):02}'
+    mins = f'{random.randint(0, 59):02}'
+    sec = f'{random.randint(0, 59):02}'
+
+    timestamp = year+"-"+month+"-"+day+" "+hr+":"+mins+":"+sec+"+00"
+
+    print("timestamp", timestamp)
 
     print(name, user_id, user_reviews, rev_rating, rev_text)
 
+    # Insert Review into Reviews Table
+    db.execute("INSERT INTO reviews (user_id, book_id, text, rating, date) VALUES(:user_id, :book_id, :text, :rating, :date)", {"user_id": user_id, "book_id": book_id, "text": rev_text, "rating":rev_rating, "date": timestamp})
+    db.commit()
 
+    # Update books table with review count and avg review score:
+    book_reviews = db.execute("SELECT COUNT(*), AVG(rating) FROM reviews WHERE book_id=:book_id", {"book_id": book_id}).fetchall()
 
+    num_reviews = book_reviews[0][0]
+    avg_review = round(int(book_reviews[0][1]),2)
 
+    print(num_reviews, avg_review)
 
+    db.execute("UPDATE books SET review_count=:review_count, average_rating=average_rating WHERE id=:book_id", {"review_count": num_reviews, "average_rating": avg_review, "book_id": book_id})
+    db.commit()
 
