@@ -75,6 +75,22 @@ def register():
     return render_template("register.html")
 
 
+@app.route("/author_details/<name>")
+def author_details(name):
+
+    # Lucky Dip Section - select 4 random books:
+    lucky = db.execute("SELECT * FROM books ORDER BY RANDOM() LIMIT 6").fetchall()
+
+    lucky = add_star_img(lucky)
+
+    # Author Explore Section - select up to 4 books from an author:
+    author = db.execute("SELECT * FROM books WHERE author=:author", {"author":name}).fetchall()
+
+    author = add_star_img(author)
+
+    return render_template("author_details.html", author=author, lucky=author)
+
+
 @app.route("/api/<isbn>")
 def book_api(isbn):
     """Get a book from the database using its ISBN"""

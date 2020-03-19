@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}Books by {{author[0][3]}} {% endblock %}
+
+{% block main %}
+
+  <!-- Reviews Grid -->
+  <div class="container text-left">
+    <h2><a href="/author_details/{{author[0][3]}}">Books by {{author[0][3]}}</a>:</h2>
+    <div class="row">
+      {% for book in author %}
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 py-2">
+          <div class="card mb-4 shadow-sm">
+            <a href="/book_details/{{book[1]}}">
+            <img src="http://covers.openlibrary.org/b/isbn/{{book[1]}}-L.jpg?default=false" class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
+            </a>
+            <div class="card-body">
+              <a href="/book_details/{{book[1]}}">
+                <h4 class="card-title">{{ book[2] }}</h4>
+              </a>
+              <a href="/author_details/{{ book[3] }}">
+                <p class="card-subtitle">{{ book[3] }}</p>
+              </a>
+                <img class="star-rating" src="/static/{{ book[7] }}" alt="star rating">
+                <p class ="num-ratings">  {{ book[5] }}</p>
+              <!--
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                <a href="about.html" class="btn btn-primary">About</a>
+                </div>
+              </div>
+              !-->
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <p class="footer-text">Background image Photo by <a href="https://www.pexels.com/@thepoorphotographer">Janko Ferlic via Pexels.</a></p>
+  <p class="footer-text">&copy; 2020 P.L.Coster</p>
+{% endblock %}
