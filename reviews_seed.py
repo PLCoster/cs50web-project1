@@ -37,9 +37,11 @@ five_star = ["Fantastic - already reading again!", "Enjoyed this book so much, I
 
 review_map = {1 : one_star, 2 : two_star, 3 : three_star, 4 : four_star, 5: five_star}
 
+print("Adding reviews to the reviews database...")
+
 # Create 10-20 random reviews for a random book for each user:
 # for name in namelist:
-for name in namelist[:1]:
+for name in namelist:
 
   # Get user_id and review_count:
   user = db.execute("SELECT * FROM users WHERE username = :username", {"username": name}).fetchall()
@@ -55,8 +57,8 @@ for name in namelist[:1]:
 
     rev_text = review_map[rev_rating][random.randint(0, 4)]
 
-    # Get a random book ID and review count:
-    book = db.execute("SELECT * FROM books ORDER BY RANDOM() LIMIT 1").fetchall()
+    # Get a random book ID not already reviewed by this user:
+    book = db.execute("SELECT * FROM books WHERE id NOT IN (SELECT book_id FROM reviews WHERE user_id=:user_id) ORDER BY RANDOM() LIMIT 1", {"user_id": user_id}).fetchall()
 
     book_id = book[0][0]
 
@@ -71,13 +73,11 @@ for name in namelist[:1]:
 
     timestamp = year+"-"+month+"-"+day+" "+hr+":"+mins+":"+sec+"+00"
 
-    print("timestamp", timestamp)
-
-    print(name, user_id, user_reviews, rev_rating, rev_text)
-
     # Insert Review into Reviews Table
     db.execute("INSERT INTO reviews (user_id, book_id, text, rating, date) VALUES(:user_id, :book_id, :text, :rating, :date)", {"user_id": user_id, "book_id": book_id, "text": rev_text, "rating":rev_rating, "date": timestamp})
-    db.commit()
+
+
+    #print("Added Review: BookID: "+str(book_id)+", Review: "+rev_text+",Rating: "+str(rev_rating)+", Username: "+name)
 
     # Update books table with review count and avg review score:
     book_reviews = db.execute("SELECT COUNT(*), AVG(rating) FROM reviews WHERE book_id=:book_id", {"book_id": book_id}).fetchall()
@@ -85,8 +85,12 @@ for name in namelist[:1]:
     num_reviews = book_reviews[0][0]
     avg_review = round(int(book_reviews[0][1]),2)
 
-    print(num_reviews, avg_review)
+    db.execute("UPDATE books SET review_count=:review_count, average_rating=:average_rating WHERE id=:book_id", {"review_count": num_reviews, "average_rating": avg_review, "book_id": book_id})
 
-    db.execute("UPDATE books SET review_count=:review_count, average_rating=average_rating WHERE id=:book_id", {"review_count": num_reviews, "average_rating": avg_review, "book_id": book_id})
-    db.commit()
 
+  # Update the number of reviews by a user in user table:
+  db.execute("UPDATE users SET num_reviews=:num_reviews WHERE id=:id", {"num_reviews": user_reviews, "id": user_id})
+
+db.commit()
+
+print("Review import completed!")

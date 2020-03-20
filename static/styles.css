@@ -27,7 +27,7 @@ body {
   font: 300 16px/22px "Lato", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
   color: #515D73;
 }
 
@@ -46,6 +46,10 @@ h3 {
 }
 
 h4 {
+  font-size:18px;
+}
+
+h5 {
   font-size: 16px;
 }
 
@@ -197,11 +201,6 @@ a .card-subtitle {
   text-decoration: none;
 }
 
-.card .star-rating {
-  float: left;
-  width: 80px;
-}
-
 .card .num-ratings {
   margin-left: 84px;
   padding-bottom: none;
@@ -210,7 +209,30 @@ a .card-subtitle {
   font-weight: 400;
 }
 
+/*
+==========================
+STAR RATING IMGS
+==========================
+*/
 
+.card .star-rating {
+  float: left;
+  width: 80px;
+}
+
+.bdstar-rating {
+  max-width: 80px;
+}
+
+/*
+==========================
+BOOK DETAILS PAGE
+==========================
+*/
+
+.book-details-image {
+  padding-bottom: 20px;
+}
 
 /*
 ==========================

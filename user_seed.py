@@ -25,7 +25,7 @@ for line in reader:
   namelist.append(line[2])
 f.close()
 
-
+print("Adding users to users table")
 # Add each user to the user table in the database:
 for name in namelist:
 
@@ -38,11 +38,14 @@ for name in namelist:
     hash_pass = generate_password_hash("TeStUsErPasSWORd1\"3$5^")
 
     db.execute("INSERT INTO users (username, hash) VALUES (:username, :hash)", {"username": name, "hash": hash_pass})
-    print(f"Added user: {name} to users table.")
+
+    #print(f"Added user: {name} to users table.")
 
   else:
     print(f"Username: {name} already in use! Not added to users table.")
 
   db.commit()
+
+print("User import completed!")
 
 

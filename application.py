@@ -1,4 +1,6 @@
 import os
+import requests
+import json
 
 from flask import Flask, session, flash, jsonify, redirect, render_template, request
 from flask_session import Session
@@ -28,7 +30,7 @@ def add_star_img(book_list):
     for book in book_list:
         new_book = list(book)
         rating = book[6]
-        if rating == None:
+        if rating == 0:
             new_book.append('no_rating.png')
         else:
             new_book.append(str(round(rating)) + '_star.png')
@@ -40,17 +42,22 @@ def add_star_img(book_list):
 @app.route("/")
 def index():
 
-    # Lucky Dip Section - select 4 random books:
+    # Top Rated Books - select 6 highest rated books:
+    top = db.execute("SELECT * FROM books WHERE average_rating >= 4.5 ORDER BY RANDOM() LIMIT 6").fetchall()
+
+    top = add_star_img(top)
+
+    # Lucky Dip Section - select 6 random books:
     lucky = db.execute("SELECT * FROM books ORDER BY RANDOM() LIMIT 6").fetchall()
 
     lucky = add_star_img(lucky)
 
-    # Author Explore Section - select up to 4 books from an author:
+    # Author Explore Section - select up to 6 books from an author:
     author = db.execute("SELECT * FROM books WHERE author in (SELECT author FROM books GROUP BY author ORDER BY RANDOM() LIMIT 1) LIMIT 6").fetchall()
 
     author = add_star_img(author)
 
-    return render_template("home.html", lucky=lucky, author=author)
+    return render_template("home.html", top=top, lucky=lucky, author=author)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -77,6 +84,7 @@ def register():
 
 @app.route("/author_details/<name>")
 def author_details(name):
+    """Display all books by a given author"""
 
     # Lucky Dip Section - select 4 random books:
     lucky = db.execute("SELECT * FROM books ORDER BY RANDOM() LIMIT 6").fetchall()
@@ -89,6 +97,28 @@ def author_details(name):
     author = add_star_img(author)
 
     return render_template("author_details.html", author=author, lucky=author)
+
+
+@app.route("/book_details/<book_id>")
+def book_details(book_id):
+    """Display a single book's details and its review page"""
+
+    # Get Book Details:
+    book = db.execute("SELECT * FROM books WHERE id=:id", {"id": book_id}).fetchall()
+
+    book = add_star_img(book)
+
+    # Get All Reviews for the Book:
+    reviews = db.execute("SELECT * FROM reviews WHERE book_id=:book_id", {"book_id": book_id}).fetchall()
+
+    # Get Additional Reviews and ratings from GoodReads API:
+    gr_res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": os.getenv("API_KEY"), "isbns": book[0][1]}).json()['books'][0]
+
+    good_reads = (gr_res['average_rating'], gr_res['work_ratings_count'])
+
+    #GR Result Format: {'books': [{'id': 29207858, 'isbn': '1632168146', 'isbn13': '9781632168146', 'ratings_count': 0, 'reviews_count': 2, 'text_reviews_count': 0, 'work_ratings_count': 27, 'work_reviews_count': 123, 'work_text_reviews_count': 9, 'average_rating': '4.11'}]}
+
+    return render_template("book_details.html", book=book, reviews=reviews, good_reads=good_reads)
 
 
 @app.route("/api/<isbn>")

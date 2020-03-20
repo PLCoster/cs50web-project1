@@ -15,32 +15,48 @@
     </div>
   </section>
 
-  <!-- Reviews Grid -->
+  <!-- Book Cards Grid -->
   <div class="container text-left">
+    <h2>All-Time Top-Rated Books:</h2>
+    <div class="row">
+      {% for book in top %}
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 py-2">
+          <div class="card mb-4 shadow-sm">
+            <a href="/book_details/{{book[0]}}">
+            <img src="http://covers.openlibrary.org/b/isbn/{{book[1]}}-L.jpg?default=false" class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
+            </a>
+            <div class="card-body">
+              <a href="/book_details/{{book[0]}}">
+                <h5 class="card-title">{{ book[2] }}</h5>
+              </a>
+              <a href="/author_details/{{ book[3] }}">
+                <p class="card-subtitle">{{ book[3] }}</p>
+              </a>
+              <img class="star-rating" src="/static/{{ book[7] }}" alt="star rating">
+              <p class ="num-ratings">  {{ book[5] }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <hr>
     <h2>Explore Books:</h2>
     <div class="row">
       {% for book in lucky %}
         <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 py-2">
           <div class="card mb-4 shadow-sm">
-            <a href="/book_details/{{book[1]}}">
+            <a href="/book_details/{{book[0]}}">
             <img src="http://covers.openlibrary.org/b/isbn/{{book[1]}}-L.jpg?default=false" class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
             </a>
             <div class="card-body">
-              <a href="/book_details/{{book[1]}}">
-                <h4 class="card-title">{{ book[2] }}</h4>
+              <a href="/book_details/{{book[0]}}">
+                <h5 class="card-title">{{ book[2] }}</h5>
               </a>
               <a href="/author_details/{{ book[3] }}">
                 <p class="card-subtitle">{{ book[3] }}</p>
               </a>
-                <img class="star-rating" src="/static/{{ book[7] }}" alt="star rating">
-                <p class ="num-ratings">  {{ book[5] }}</p>
-              <!--
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                <a href="about.html" class="btn btn-primary">About</a>
-                </div>
-              </div>
-              !-->
+              <img class="star-rating" src="/static/{{ book[7] }}" alt="star rating">
+              <p class ="num-ratings">  {{ book[5] }}</p>
             </div>
           </div>
         </div>
@@ -52,50 +68,24 @@
       {% for book in author %}
         <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 py-2">
           <div class="card mb-4 shadow-sm">
-            <a href="/book_details/{{book[1]}}">
+            <a href="/book_details/{{book[0]}}">
             <img src="http://covers.openlibrary.org/b/isbn/{{book[1]}}-L.jpg?default=false" class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
             </a>
             <div class="card-body">
-              <a href="/book_details/{{book[1]}}">
-                <h4 class="card-title">{{ book[2] }}</h4>
+              <a href="/book_details/{{book[0]}}">
+                <h5 class="card-title">{{ book[2] }}</h5>
               </a>
               <a href="/author_details/{{ book[3] }}">
                 <p class="card-subtitle">{{ book[3] }}</p>
               </a>
-                <img class="star-rating" src="/static/{{ book[7] }}" alt="star rating">
-                <p class ="num-ratings">  {{ book[5] }}</p>
-              <!--
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                <a href="about.html" class="btn btn-primary">About</a>
-                </div>
-              </div>
-              !-->
+              <img class="star-rating" src="/static/{{ book[7] }}" alt="star rating">
+              <p class ="num-ratings">  {{ book[5] }}</p>
             </div>
           </div>
         </div>
       {% endfor %}
     </div>
     <hr>
-    <h2>Some other category:</h2>
-    <div class="row">
-      <div class="col-md-3 col-sm-4 col-xs-6">
-        <div class="card mb-4 shadow-sm">
-          <img src="assets/Projects/CS50W.png" class="card-img-top" alt="CS0Web Logo">
-          <div class="card-body">
-            <h3 class="card-title">Placeholder</h3>
-            <p class="card-text">Placeholder Book</p>
-            <!--
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <a href="about.html" class="btn btn-primary">About</a>
-              </div>
-            </div>
-            !-->
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 {% endblock %}
 
