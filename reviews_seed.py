@@ -35,7 +35,9 @@ four_star = ["Really enjoyed this book", "A great read, looking forward to readi
 
 five_star = ["Fantastic - already reading again!", "Enjoyed this book so much, I would recommend to all my friends and family", "If you read one book this year, read this one!", "An absolute masterpiece - full marks.", "Can't wait to read the next book by this author!"]
 
-review_map = {1 : one_star, 2 : two_star, 3 : three_star, 4 : four_star, 5: five_star}
+review_map = {1: one_star, 2: two_star, 3: three_star, 4: four_star, 5: five_star}
+
+review_dist = {1 : 1, 2 : 2, 3 : 2, 4 : 3, 5: 3, 6: 3, 7: 4, 8: 4, 9: 5, 10: 5}
 
 print("Adding reviews to the reviews database...")
 
@@ -49,11 +51,11 @@ for name in namelist:
   user_id = user[0][0]
   user_reviews = user[0][3]
 
-  for rev_num in range(random.randint(10, 20)):
+  for rev_num in range(random.randint(10, 30)):
     user_reviews += 1
 
     # Generate random review rating
-    rev_rating = random.randint(1, 5)
+    rev_rating = review_dist[random.randint(1, 10)]
 
     rev_text = review_map[rev_rating][random.randint(0, 4)]
 
