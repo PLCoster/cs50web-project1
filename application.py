@@ -9,9 +9,12 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
 
-# Check for environment variable
+# Check for environment variables
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
+
+if not os.getenv("API_KEY"):
+    raise RuntimeError("API_KEY is not set")
 
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
@@ -22,21 +25,26 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-def add_star_img(book_list):
-    """ Helper fuinction to add correct star rating imgs to each book"""
+def add_star_img(sql_list):
+    """
+    Helper function to append correct star rating imgs to each book or review.
+    The book or review rating is the last entry in each tuple.
+    """
 
-    new_book_list = []
+    new_list = []
 
-    for book in book_list:
-        new_book = list(book)
-        rating = book[6]
+    for item in sql_list:
+        new_item = list(item)
+
+        rating = item[-1]
+
         if rating == 0:
-            new_book.append('no_rating.png')
+            new_item.append('no_rating.png')
         else:
-            new_book.append(str(round(rating)) + '_star.png')
-        new_book_list.append(new_book)
+            new_item.append(str(round(rating)) + '_star.png')
+        new_list.append(new_item)
 
-    return new_book_list
+    return new_list
 
 
 @app.route("/")
@@ -108,8 +116,10 @@ def book_details(book_id):
 
     book = add_star_img(book)
 
-    # Get All Reviews for the Book:
-    reviews = db.execute("SELECT * FROM reviews WHERE book_id=:book_id", {"book_id": book_id}).fetchall()
+    # Get All Reviews and reviewer details for the Book:
+    reviews = db.execute("SELECT users.username, reviews.text, reviews.date, reviews.rating FROM users INNER JOIN reviews ON users.id=reviews.user_id WHERE reviews.book_id=:book_id ORDER BY reviews.date", {"book_id": book_id}).fetchall()
+
+    reviews = add_star_img(reviews)
 
     # Get Additional Reviews and ratings from GoodReads API:
     gr_res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": os.getenv("API_KEY"), "isbns": book[0][1]}).json()['books'][0]

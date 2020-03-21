@@ -3,9 +3,8 @@
 {% block title %}Book Details: {{book[0][2]}} {% endblock %}
 
 {% block main %}
-<!--Book-Details - Jumbotron Container-->
-<section class="jumbotron text-left ">
-  <div class="container">
+<!--Book-Details Container-->
+  <div class="container text-left">
     <div class="row">
       <div class="col-md-3">
         <img src="http://covers.openlibrary.org/b/isbn/{{book[0][1]}}-L.jpg?default=false" class="book-details-image" style="width: 100%;" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
@@ -20,7 +19,31 @@
       </div>
     </div>
   </div>
-</section>
+
+<!-- User own review section -->
+<div class="review container text-left">
+  {% if session.user_id %}
+  <!-- Display user's own review -->
+  {% else %}
+  <!-- Display info and login/register links-->
+  <h5><a href="/login">Log in</a> to your account or <a href="/register">register</a> for a new account to leave your own review for: {{book[0][2]}}.</h5>
+  {% endif %}
+</div>
+
+<!-- Read-Rate Reviews-->
+<div class="review container text-left">
+  <h2>READ-RATE book reviews: </h2>
+  {% for review in reviews %}
+    <div class="row">
+      <div class="col-md-12">
+        <h5><img class="bdstar-rating" src="/static/{{ review[4] }}" alt="star rating"> - by {{ review[0] }}</h5>
+        <p class="date">Reviewed {{ review[2] }}</p>
+        <p>{{ review[1] }}</p>
+      </div>
+    </div>
+    <hr>
+  {% endfor %}
+</div>
 {% endblock %}
 
 {% block footer %}

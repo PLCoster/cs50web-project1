@@ -138,6 +138,7 @@ CONTAINER
   -webkit-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
   -moz-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
   box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
+  margin-top: 20px;
 }
 
 .container h1, .container h2, .container .row {
@@ -234,6 +235,19 @@ BOOK DETAILS PAGE
   padding-bottom: 20px;
 }
 
+.review .bdstar-rating {
+  max-width: 80px;
+}
+
+.review h5 {
+  line-height: 20px;
+  margin-bottom: 0;
+}
+
+.review p.date {
+  font-size: 12px;
+  font-weight: 700;
+}
 /*
 ==========================
 LOGIN and REGISTER
