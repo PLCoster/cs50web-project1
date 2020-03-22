@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}User Reviews: {{reviews[0][0]}} {% endblock %}
+
+{% block main %}
+<!--User Reviews Container-->
+  <div class="review container text-left">
+    <h2>Reviews by {{reviews[0][0]}}:</h2>
+    {% for review in reviews %}
+    <div class="row">
+      <div class="col-md-2">
+        <div class="card mb-4 shadow-sm">
+          <a href="/book_details/{{review[1]}}">
+          <img src="http://covers.openlibrary.org/b/isbn/{{review[2]}}-L.jpg?default=false"  class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
+          </a>
+        </div>
+      </div>
+      <div class="col-md-10">
+        <a href="/book_details/{{review[1]}}">
+          <h4 class="card-title">{{ review[3] }}</h4>
+        </a>
+        <a href="/author_details/{{ review[4] }}">
+          <p class="card-subtitle">{{ review[4] }}</p>
+        </a>
+        <hr>
+        <h5><img class="bdstar-rating" src="/static/{{ review[8] }}" alt="star rating"> - by {{ review[0] }}</h5>
+        <p class="date">Reviewed {{ review[6] }}</p>
+        <p>{{ review[5] }}</p>
+      </div>
+    </div>
+    <hr>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <p class="footer-text">Background image Photo by <a href="https://www.pexels.com/@thepoorphotographer">Janko Ferlic via Pexels.</a></p>
+  <p class="footer-text">&copy; 2020 P.L.Coster</p>
+{% endblock %}

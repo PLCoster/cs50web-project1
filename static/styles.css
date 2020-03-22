@@ -295,14 +295,9 @@ RESPONSIVE
 =============================
 */
 
-@media print {
-  .nickname-gen {
-    display: none;
-  }
-}
-@media only screen and (max-width: 400px) {
-  .blog-post img.blog-img.center {
-    max-width: 90vw;
-    min-width: 300px;
+@media screen and (max-width: 766px) {
+  .book-cover {
+    max-height: 100px;
+    text-align: center;
   }
 }

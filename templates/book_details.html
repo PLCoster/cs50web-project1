@@ -37,9 +37,9 @@
   {% for review in reviews %}
     <div class="row">
       <div class="col-md-12">
-        <h5><img class="bdstar-rating" src="/static/{{ review[4] }}" alt="star rating"> - by {{ review[0] }}</h5>
-        <p class="date">Reviewed {{ review[2] }}</p>
-        <p>{{ review[1] }}</p>
+        <h5><img class="bdstar-rating" src="/static/{{ review[5] }}" alt="star rating"> - by <a href="/user_details/{{review[0]}}">{{ review[1] }}</a></h5>
+        <p class="date">Reviewed {{ review[3] }}</p>
+        <p>{{ review[2] }}</p>
       </div>
     </div>
     <hr>

@@ -117,7 +117,7 @@ def book_details(book_id):
     book = add_star_img(book)
 
     # Get All Reviews and reviewer details for the Book:
-    reviews = db.execute("SELECT users.username, reviews.text, reviews.date, reviews.rating FROM users INNER JOIN reviews ON users.id=reviews.user_id WHERE reviews.book_id=:book_id ORDER BY reviews.date", {"book_id": book_id}).fetchall()
+    reviews = db.execute("SELECT users.id, users.username, reviews.text, reviews.date, reviews.rating FROM users INNER JOIN reviews ON users.id=reviews.user_id WHERE reviews.book_id=:book_id ORDER BY reviews.date DESC", {"book_id": book_id}).fetchall()
 
     reviews = add_star_img(reviews)
 
@@ -130,6 +130,17 @@ def book_details(book_id):
 
     return render_template("book_details.html", book=book, reviews=reviews, good_reads=good_reads)
 
+
+@app.route("/user_details/<user_id>")
+def user_details(user_id):
+    """Display all the reviews written by a single user"""
+
+    # Get all reviews by the user reviewer details for the Book:
+    reviews = db.execute("SELECT users.username, books.id, books.isbn, books.title, books.author, reviews.text, reviews.date, reviews.rating FROM users INNER JOIN reviews ON users.id=reviews.user_id INNER JOIN books ON reviews.book_id = books.id WHERE users.id=:user_id ORDER BY reviews.date DESC", {"user_id": user_id}).fetchall()
+
+    reviews = add_star_img(reviews)
+
+    return render_template("user_details.html", reviews=reviews)
 
 @app.route("/api/<isbn>")
 def book_api(isbn):
