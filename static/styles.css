@@ -88,30 +88,6 @@ NAVBAR
   color: #FFF;
 }
 
-/*
-==========================
-JUMBOTRON
-==========================
-*/
-
-.jumbotron {
-  background: none;
-  margin-bottom: 0;
-  padding: 32px 32px !important;
-}
-
-.jumbotron .container { /* inherit from login container etc */
-  padding-bottom: 0;
-  margin: auto;
-}
-
-.announcement .row {
-  margin-top: 20px;
-}
-
-.announcement img {
-  border-style: none;
-}
 
 /*
 ==========================
@@ -153,17 +129,15 @@ BUTTONS
 ===========================
 */
 .btn-primary, .btn-primary:hover {
-  color: #DFA95F;
-  background-color: #273E47;
-  border-color: #273E47;
+  color: #7EB1D4;
+  background-color: #515D73;
+  border-color: #515D73;
 }
 
 .btn-primary:hover {
-  color: #EDE6D1;
-}
-
-.new-nick {
-  margin-bottom: 20px;
+  color: #FFF;
+  background-color: #7EB1D4;
+  border-color: #7EB1D4;
 }
 
 /*
@@ -320,6 +294,7 @@ body {
 RESPONSIVE
 =============================
 */
+
 @media print {
   .nickname-gen {
     display: none;
