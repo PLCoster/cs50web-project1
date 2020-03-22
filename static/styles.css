@@ -96,6 +96,8 @@ JUMBOTRON
 
 .jumbotron {
   background: none;
+  margin-bottom: 0;
+  padding: 32px 32px !important;
 }
 
 .jumbotron .container { /* inherit from login container etc */
@@ -239,6 +241,10 @@ BOOK DETAILS PAGE
   max-width: 80px;
 }
 
+.review h4 {
+  padding-top: 10px;
+}
+
 .review h5 {
   line-height: 20px;
   margin-bottom: 0;
@@ -308,43 +314,6 @@ body {
   margin-top: 20px;
 }
 
-
-/*
-==========================
-BLOG
-==========================
-*/
-.blog-main {
-  margin-top: 100px;
-  margin-bottom: 100px;
-}
-
-/* Inherit from cat img */
-.blog-post img.blog-img.center {
-  display: block;
-  max-height: 300px;
-  max-width: 100%;
-  margin: auto;
-  border: 1px gray solid;
-}
-
-img.blog-img + p, table + p {
-  font-size: 12px;
-  font-weight: 700;
-  text-align: center;
-}
-
-/*
-==========================
-PROJECTS
-==========================
-*/
-p.tech-icons {
-  padding: 0;
-  margin: 0;
-  margin-bottom: 10px;
-  font-size: 24px;
-}
 
 /*
 =============================
