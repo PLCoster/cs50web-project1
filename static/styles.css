@@ -88,6 +88,41 @@ NAVBAR
   color: #FFF;
 }
 
+/*
+==========================
+SEARCH BAR
+==========================
+*/
+#searchbar {
+}
+
+.custom-select {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border: 1px solid #515D73;
+  margin-right: -1px;
+  color: #7EB1D4;
+  background-color: #515D73;
+}
+
+.custom-select:hover, .custom-select:focus {
+  color: #FFF;
+  background-color: #515D73;
+}
+
+.search-text {
+  border-radius: 0;
+  border: 1px solid #515D73;
+  width: 220px;
+}
+
+.search {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: -10px;
+}
+
+
 
 /*
 ==========================
@@ -128,7 +163,7 @@ CONTAINER
 BUTTONS
 ===========================
 */
-.btn-primary, .btn-primary:hover {
+.btn-primary {
   color: #7EB1D4;
   background-color: #515D73;
   border-color: #515D73;
@@ -136,8 +171,8 @@ BUTTONS
 
 .btn-primary:hover {
   color: #FFF;
-  background-color: #7EB1D4;
-  border-color: #7EB1D4;
+  background-color: #515D73;
+  border-color: #515D73;
 }
 
 /*
