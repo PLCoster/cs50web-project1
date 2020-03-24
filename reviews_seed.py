@@ -85,7 +85,7 @@ for name in namelist:
     book_reviews = db.execute("SELECT COUNT(*), AVG(rating) FROM reviews WHERE book_id=:book_id", {"book_id": book_id}).fetchall()
 
     num_reviews = book_reviews[0][0]
-    avg_review = round(int(book_reviews[0][1]),2)
+    avg_review = round(float(book_reviews[0][1]),2)
 
     db.execute("UPDATE books SET review_count=:review_count, average_rating=:average_rating WHERE id=:book_id", {"review_count": num_reviews, "average_rating": avg_review, "book_id": book_id})
 
