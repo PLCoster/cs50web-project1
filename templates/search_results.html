@@ -9,6 +9,7 @@
     {% if title_isbn %}
     <!-- Matching Books go into one grid section-->
     <h2>Search Results for "{{search_text}}" by {{search_type}}:</h2>
+    <hr>
     <div class="row">
       {% for book in title_isbn %}
         <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 py-2">
@@ -31,10 +32,37 @@
       {% endfor %}
     </div>
     {% elif author %}
-    <!-- Do something else-->
+    <!-- Show 6 books from up to 10 matching authors -->
+    <h2>Search Results for "{{search_text}}" by {{search_type}}:</h2>
+    <hr>
+    {% for name in author %}
+    <h2><a href="/author_details/{{name[0][3]}}">Books by {{name[0][3]}}</a>:</h2>
+    <div class="row">
+      {% for book in name %}
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 py-2">
+          <div class="card mb-4 shadow-sm">
+            <a href="/book_details/{{book[0]}}">
+            <img src="http://covers.openlibrary.org/b/isbn/{{book[1]}}-L.jpg?default=false" class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
+            </a>
+            <div class="card-body">
+              <a href="/book_details/{{book[0]}}">
+                <h5 class="card-title">{{ book[2] }}</h5>
+              </a>
+              <a href="/author_details/{{ book[3] }}">
+                <p class="card-subtitle">{{ book[3] }}</p>
+              </a>
+                <img class="star-rating" src="/static/{{ book[7] }}" alt="star rating">
+                <p class ="num-ratings">  {{ book[5] }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <hr>
+    {% endfor %}
     {% else %}
     <div class="row">
-      <h3>Sorry - no results found in the Read-Rate database for your search!</h3>
+      <h2>Sorry - no results found in the Read-Rate database for your search!</h2>
     </div>
     {% endif %}
   </div>

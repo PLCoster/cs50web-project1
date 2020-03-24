@@ -152,9 +152,6 @@ def search():
     search = request.form.get("search-text")
     search_text = '%' + search + '%'
 
-
-    print(search_type, type(search_type), search_text, type(search_text))
-
     # If a search parameter is missing, render homepage with an apology
     if not search_type or not search_text:
         flash('Please select search type and enter a search value to search for books!')
@@ -177,15 +174,9 @@ def search():
 
             author.append(author_books)
 
-        print(author)
-
-        return redirect("/")
-
     else:
         # Get similar books by isbn or book title
         title_isbn = db.execute(f"SELECT * FROM books WHERE {search_type} ILIKE :search_text LIMIT 30", {"search_text" : search_text}).fetchall()
-
-        print(title_isbn)
 
         title_isbn = add_star_img(title_isbn)
 
