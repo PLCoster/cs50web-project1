@@ -164,8 +164,21 @@ def search():
     author = None
     title_isbn = None
 
-    if search_type == author:
-        #Do something else
+    if search_type == 'author':
+        author = []
+        # Get 10 authors:
+        author_names = db.execute("SELECT author FROM books WHERE author ILIKE :search_text GROUP BY author LIMIT 10", {"search_text" : search_text}).fetchall()
+
+        # For each author in list, get 6 books:
+        for name in author_names:
+            author_books = db.execute("SELECT * FROM books WHERE author = :author LIMIT 6", {"author" : name[0]}).fetchall()
+
+            author_books = add_star_img(author_books)
+
+            author.append(author_books)
+
+        print(author)
+
         return redirect("/")
 
     else:
