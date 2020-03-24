@@ -33,6 +33,28 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <form class="form-inline my-2 my-lg-0" id="searchbar" action="/search" method="post" required>
+              <select class="form-control custom-select-sm custom-select" name="search-type">
+                <option value="title">Title</option>
+                <option value="author">Author</option>
+                <option value="isbn">ISBN</option>
+              </select>
+              <input class="form-control-sm mr-sm-2 search-text" type="search" placeholder="Search by Title, Author or ISBN" aria-label="Search" name="search-text" required>
+              <button class="btn btn-primary btn-sm search" type="submit">Search</button>
+            </form>
+            <!--
+              <form action="/buy" method="post">
+      <div class="form-group">
+          <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Stock Symbol" type="text">
+      </div>
+      <div class="form-group">
+          <input autocomplete="off" autofocus class="form-control" name="shares" placeholder="No. of Stocks" type="number" min="1">
+      </div>
+      <button class="btn btn-primary" type="submit">Buy Shares!</button>
+  </form>
+            -->
+          </ul>
           {% if session.user_id %}
           <!-- Navbar when logged in -->
             <ul class="navbar-nav mr-auto">
@@ -57,28 +79,6 @@
             </ul>
           {% else %}
           <!-- Navbar when NOT logged in -->
-            <ul class="navbar-nav mr-auto">
-              <form class="form-inline my-2 my-lg-0" id="searchbar">
-                <select class="form-control custom-select-sm custom-select">
-                  <option>Title</option>
-                  <option>Author</option>
-                  <option>ISBN</option>
-                </select>
-                <input class="form-control-sm mr-sm-2 search-text" type="search" placeholder="Search by Title, Author or ISBN" aria-label="Search">
-                <button class="btn btn-primary btn-sm search" type="submit">Search</button>
-              </form>
-              <!--
-                <form action="/buy" method="post">
-        <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Stock Symbol" type="text">
-        </div>
-        <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="shares" placeholder="No. of Stocks" type="number" min="1">
-        </div>
-        <button class="btn btn-primary" type="submit">Buy Shares!</button>
-    </form>
-              -->
-            </ul>
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
                 <a class="nav-link" href="/login">Log In</a>

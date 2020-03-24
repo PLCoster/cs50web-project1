@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}Search Results for {{search_text}} by {{search_type}} {% endblock %}
+
+{% block main %}
+
+  <!-- Reviews Grid -->
+  <div class="container text-left">
+    {% if title_isbn %}
+    <!-- Matching Books go into one grid section-->
+    <h2>Search Results for "{{search_text}}" by {{search_type}}:</h2>
+    <div class="row">
+      {% for book in title_isbn %}
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 py-2">
+          <div class="card mb-4 shadow-sm">
+            <a href="/book_details/{{book[0]}}">
+            <img src="http://covers.openlibrary.org/b/isbn/{{book[1]}}-L.jpg?default=false" class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
+            </a>
+            <div class="card-body">
+              <a href="/book_details/{{book[0]}}">
+                <h5 class="card-title">{{ book[2] }}</h5>
+              </a>
+              <a href="/author_details/{{ book[3] }}">
+                <p class="card-subtitle">{{ book[3] }}</p>
+              </a>
+                <img class="star-rating" src="/static/{{ book[7] }}" alt="star rating">
+                <p class ="num-ratings">  {{ book[5] }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {% elif author %}
+    <!-- Do something else-->
+    {% else %}
+    <div class="row">
+      <h3>Sorry - no results found in the Read-Rate database for your search!</h3>
+    </div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <p class="footer-text">Background image Photo by <a href="https://www.pexels.com/@thepoorphotographer">Janko Ferlic via Pexels.</a></p>
+  <p class="footer-text">&copy; 2020 P.L.Coster</p>
+{% endblock %}

@@ -142,6 +142,43 @@ def user_details(user_id):
 
     return render_template("user_details.html", reviews=reviews)
 
+
+@app.route("/search", methods=["POST"])
+def search():
+    """ Get results for a title, author or ISBN search """
+
+    # Get input from search bar
+    search_type = request.form.get("search-type")
+    search = request.form.get("search-text")
+    search_text = '%' + search + '%'
+
+
+    print(search_type, type(search_type), search_text, type(search_text))
+
+    # If a search parameter is missing, render homepage with an apology
+    if not search_type or not search_text:
+        flash('Please select search type and enter a search value to search for books!')
+        return redirect("/")
+
+    # Otherwise check the search term and generate a query result:
+    author = None
+    title_isbn = None
+
+    if search_type == author:
+        #Do something else
+        return redirect("/")
+
+    else:
+        # Get similar books by isbn or book title
+        title_isbn = db.execute(f"SELECT * FROM books WHERE {search_type} ILIKE :search_text LIMIT 30", {"search_text" : search_text}).fetchall()
+
+        print(title_isbn)
+
+        title_isbn = add_star_img(title_isbn)
+
+    return render_template("/search_results.html", search_type=search_type, search_text=search, author=author, title_isbn=title_isbn)
+
+
 @app.route("/api/<isbn>")
 def book_api(isbn):
     """Get a book from the database using its ISBN"""
