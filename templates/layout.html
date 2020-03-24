@@ -34,31 +34,32 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Search Bar -->
-          <ul class="navbar-nav mr-auto">
-            <form class="form-inline my-2 my-lg-0" id="searchbar" action="/search" method="post" required>
-              <select class="form-control custom-select-sm custom-select" name="search-type">
-                <option value="title">Title</option>
-                <option value="author">Author</option>
-                <option value="isbn">ISBN</option>
-              </select>
-              <input class="form-control-sm mr-sm-2 search-text" type="search" placeholder="Search by Title, Author or ISBN" aria-label="Search" name="search-text" required>
-              <button class="btn btn-primary btn-sm search" type="submit">Search</button>
-            </form>
-          </ul>
+          <form class="form-inline my-2 my-lg-0" id="searchbar" action="/search" method="post" required>
+            <select class="form-control custom-select-sm custom-select" name="search-type">
+              <option value="title">Title</option>
+              <option value="author">Author</option>
+              <option value="isbn">ISBN</option>
+            </select>
+            <input class="form-control-sm mr-sm-2 search-text" type="search" placeholder="Search by Title, Author or ISBN" aria-label="Search" name="search-text" required>
+            <button class="btn btn-primary btn-sm search" type="submit">Search</button>
+          </form>
           {% if session.user_id %}
           <!-- Navbar when logged in -->
             <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="/recommended">Recommended</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/reviews">Your Reviews</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/account">Logged in as {{session.username}}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/logout"></i>Log Out</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  My READ-RATE
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <p> Logged in as {{session.username}}</p>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/recommended">Recommendations</a>
+                  <a class="dropdown-item" href="/user_details/{{session.user_id}}">My Reviews</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/account">Account Settings</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/logout">Sign Out</a>
+                </div>
               </li>
             </ul>
           {% else %}
