@@ -94,6 +94,7 @@ SEARCH BAR
 ==========================
 */
 #searchbar {
+  min-width: 366px;
 }
 
 .custom-select {

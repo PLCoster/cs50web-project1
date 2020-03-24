@@ -6,6 +6,7 @@ from flask import Flask, session, flash, jsonify, redirect, render_template, req
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
 
@@ -47,6 +48,30 @@ def add_star_img(sql_list):
     return new_list
 
 
+# Password validator:
+def validate_pass(password):
+    """Checks password string for minimum length and a least one number and one letter"""
+
+    if len(password) < 8:
+        return False
+
+    letter = False
+    number = False
+    numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    letters = list(map(chr, range(97, 123)))
+
+    for i in range(len(password)):
+        if password[i] in numbers:
+            number = True
+        if password[i].lower() in letters:
+            letter = True
+
+    if letter and number:
+        return True
+    else:
+        return False
+
+
 @app.route("/")
 def index():
 
@@ -72,6 +97,8 @@ def index():
 def login():
     """Log user into site"""
 
+    # If reached via POST by submitting form:
+
     # Clear any current user ID:
     session.clear()
 
@@ -83,11 +110,74 @@ def login():
 def register():
     """Register user for the website"""
 
-    # Clear any current user ID:
+    # If user is already logged in, return to home:
+    if session.get("user_id") != None:
+        return redirect("/")
+
+    # If reached via POST by submitting form - try to register new user:
+    if request.method == "POST":
+
+        # Get input from registration form:
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirm = request.form.get("confirmation")
+
+        # If form is incomplete, return and flash apology:
+        if not username or not password or not confirm:
+            flash('Please fill in all three fields to register!')
+            return render_template("register.html")
+
+        # If password and confirmation do not match, return and flash apology:
+        elif password != confirm:
+            flash('Password and confirmation did not match! Please try again.')
+            return render_template("register.html")
+
+        # Ensure password meets password requirements:
+        elif not validate_pass(password):
+            flash('Password must be eight characters long with at least one number and one letter!')
+            return render_template("register.html")
+
+        # Otherwise information from registration is complete:
+        else:
+            # Check username does not already exist, if it does then ask for a different name:
+            if db.execute("SELECT * FROM users WHERE username = :username", {"username" : username}).fetchone():
+                flash('Sorry but that username is already in use, please pick a different username!')
+                return render_template("register.html")
+
+            # Otherwise add user to database using hashed password:
+            hash_pass = generate_password_hash(password)
+
+            # Add new user to users table:
+            db.execute("INSERT INTO users (username, hash) VALUES(:username, :hash)", {"username" : username, "hash" : hash_pass})
+
+            db.commit()
+
+            # Put unique user ID and username into session:
+
+            user_info = db.execute("SELECT id, username FROM users WHERE username=:username", {"username" : username}).fetchall()
+
+            session["user_id"] = user_info[0][0]
+            session["username"] = user_info[0][1]
+
+            # Return to home page, logged in:
+            flash('Welcome to READ-RATE! You have been succesfully registered and logged in!')
+            return redirect("/")
+
+    # If User reaches Route via GET (e.g. clicking registration link):
+    else:
+        return render_template("register.html")
+
+
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
     session.clear()
 
-    # If User reaches Route via GET (e.g. clicking login link):
-    return render_template("register.html")
+    # Redirect user to home page
+    flash('You have been logged out.')
+    return redirect("/")
 
 
 @app.route("/author_details/<name>")
