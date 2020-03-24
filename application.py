@@ -97,13 +97,42 @@ def index():
 def login():
     """Log user into site"""
 
-    # If reached via POST by submitting form:
+    # If user is already logged in, return to home:
+    if session.get("user_id") != None:
+        return redirect("/")
 
-    # Clear any current user ID:
-    session.clear()
+    # If reached via POST by submitting login form:
+    if request.method == "POST":
+
+        # Get input from login form:
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        # Check that login has been filled out:
+        if not username or not password:
+            flash("Please enter username AND password to Log in!")
+            return render_template("login.html")
+
+        # Query database for username:
+        user = db.execute("SELECT * FROM users WHERE username = :username", {"username" : username}).fetchone()
+
+        print(user)
+
+        # Check username exists and password is correct:
+        if not user or not check_password_hash(user[2], password):
+            flash("Invalid username and/or password! Please try again!")
+            return render_template("login.html")
+
+        # Otherwise log in user and redirect to homepage:
+        session["user_id"] = user[0]
+        session["username"] = user[1]
+
+        flash('Log in Successful! Welcome back to READ-RATE!')
+        return redirect("/")
 
     # If User reaches Route via GET (e.g. clicking login link):
-    return render_template("login.html")
+    else:
+        return render_template("login.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -176,7 +205,7 @@ def logout():
     session.clear()
 
     # Redirect user to home page
-    flash('You have been logged out.')
+    flash('You have been logged out. See you again soon!')
     return redirect("/")
 
 

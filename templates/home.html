@@ -6,10 +6,16 @@
   <!--Welcome Container-->
     <div class="container text-left">
       <div class="col-md-12">
-        <h1>Welcome to READ-RATE!</h1>
-        <p class="lead">READ-RATE is a book review website, where you can rate books you have read, and view reviews by other users.</p>
-        <p class="lead"> To get started, try searching our database for a book by author, title or ISBN:</p>
-        <p class="lead">If you want to write your own reviews and get book recommendations based on your reviews, please <a href ="/login">sign in to your account</a> or <a href="/register"> register for a new account</a>.</p>
+        {% if not session.user_id %}
+          <h1>Welcome to READ-RATE!</h1>
+          <p class="lead">READ-RATE is a book review website, where you can rate books you have read, and view reviews by other users.</p>
+          <p class="lead"> To get started, try searching our database for a book by author, title or ISBN:</p>
+          <p class="lead">If you want to write your own reviews and get book recommendations based on your reviews, please <a href ="/login">sign in to your account</a> or <a href="/register"> register for a new account</a>.</p>
+        {% else %}
+          <h1>Welcome back to to READ-RATE, {{session.username}}!</h1>
+          <p class="lead">Get started by searching for a book you have read by title, author or ISBN. Then click on a book to read reviews by other users and leave your own reviews!</p>
+          <p class="lead">Alternatively, select a book to read from the assortment below. Be sure to come back and leave a review once you have read it!</p>
+        {% endif %}
       </div>
     </div>
 
