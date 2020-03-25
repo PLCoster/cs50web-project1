@@ -230,6 +230,8 @@ def author_details(name):
 def book_details(book_id):
     """Display a single book's details and its review page"""
 
+    user_review = None
+
     # Get Book Details:
     book = db.execute("SELECT * FROM books WHERE id=:id", {"id": book_id}).fetchall()
 
@@ -250,9 +252,15 @@ def book_details(book_id):
 
     good_reads = (gr_res['average_rating'], gr_res['work_ratings_count'])
 
-    #GR Result Format: {'books': [{'id': 29207858, 'isbn': '1632168146', 'isbn13': '9781632168146', 'ratings_count': 0, 'reviews_count': 2, 'text_reviews_count': 0, 'work_ratings_count': 27, 'work_reviews_count': 123, 'work_text_reviews_count': 9, 'average_rating': '4.11'}]}
+    # If a user is logged in, check if they have left their own review:
+    if session.get("user_id"):
+        user_review = db.execute("SELECT text, date, rating FROM reviews WHERE user_id=:user_id AND book_id=:book_id", {"user_id": session["user_id"], "book_id": book_id}).fetchall()
 
-    return render_template("book_details.html", book=book, reviews=reviews, good_reads=good_reads)
+        user_review = add_star_img(user_review)
+
+        print(user_review)
+
+    return render_template("book_details.html", book=book, reviews=reviews, good_reads=good_reads, user_review=user_review)
 
 
 @app.route("/user_details/<user_id>")

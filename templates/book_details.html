@@ -23,11 +23,40 @@
 
 <!-- User own review section -->
 <div class="review container text-left">
-  {% if session.user_id %}
-  <!-- Display user's own review -->
+  {% if session.user_id and user_review %}
+    <!-- Display user's own review -->
+    <h4>Your review for {{book[0][2]}}: </h4>
+    <div class="row">
+      <div class="col-md-12">
+        <h5><img class="bdstar-rating" src="/static/{{ user_review[0][3] }}" alt="star rating"> - by <a href="/user_details/{{session.user_id}}">{{ session.username }}</a></h5>
+        <p class="date">Reviewed {{ user_review[0][1] }}</p>
+        <p>{{ user_review[0][0] }}</p>
+      </div>
+    </div>
+  {% elif session.user_id %}
+    <!-- Display review input form -->
+    <h4>Write your own review for {{book[0][2]}}: </h4>
+    <form>
+      <div class="form-group review">
+        <label for="exampleFormControlTextarea1">Review text:</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Your Rating:</label>
+        <select class="form-control custom-select-sm custom-select" id="exampleFormControlSelect1">
+          <option>1 Star - Hated it!</option>
+          <option>2 Stars - Didn't like it!</option>
+          <option>3 Stars - Liked it!</option>
+          <option>4 Stars - Loved it!</option>
+          <option>5 Stars - Amazing!</option>
+        </select>
+        <button class="btn btn-sm btn-primary" type="submit">Submit Review</button>
+      </div>
+
+    </form>
   {% else %}
-  <!-- Display info and login/register links-->
-  <h4><a href="/login">Log in</a> to your account or <a href="/register">register</a> for a new account to leave your own review for: {{book[0][2]}}.</h4>
+    <!-- Display info and login/register links-->
+    <h4><a href="/login">Log in</a> to your account or <a href="/register">register</a> for a new account to leave your own review for: {{book[0][2]}}.</h4>
   {% endif %}
 </div>
 

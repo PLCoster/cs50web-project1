@@ -279,6 +279,15 @@ BOOK DETAILS PAGE
   font-size: 12px;
   font-weight: 700;
 }
+
+.review select {
+  max-width: 150px;
+  border-radius: 3px;
+}
+
+.review .btn {
+  float: right;
+}
 /*
 ==========================
 LOGIN and REGISTER
