@@ -213,13 +213,13 @@ def logout():
 def author_details(name):
     """Display all books by a given author"""
 
-    # Lucky Dip Section - select 4 random books:
-    lucky = db.execute("SELECT * FROM books ORDER BY RANDOM() LIMIT 6").fetchall()
-
-    lucky = add_star_img(lucky)
-
     # Author Explore Section - select up to 4 books from an author:
     author = db.execute("SELECT * FROM books WHERE author=:author", {"author":name}).fetchall()
+
+    # If author does not exist then return home with apology:
+    if not author:
+        flash("Sorry but that author could not be found in the READ-RATE database!")
+        return redirect("/")
 
     author = add_star_img(author)
 
@@ -232,6 +232,11 @@ def book_details(book_id):
 
     # Get Book Details:
     book = db.execute("SELECT * FROM books WHERE id=:id", {"id": book_id}).fetchall()
+
+    # If book is not in database, return to homepage with apology:
+    if not book:
+        flash("Sorry, this book ID does not exist in the READ-RATE database!")
+        return redirect("/")
 
     book = add_star_img(book)
 

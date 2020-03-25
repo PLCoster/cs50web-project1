@@ -61,9 +61,9 @@
     <hr>
     {% endfor %}
     {% else %}
-    <div class="row">
-      <h2>Sorry - no results found in the Read-Rate database for your search!</h2>
-    </div>
+    <h2>Search Results for "{{search_text}}" by {{search_type}}:</h2>
+    <hr>
+    <h3>Sorry - no results found in the Read-Rate database for your search!</h3>
     {% endif %}
   </div>
 {% endblock %}
