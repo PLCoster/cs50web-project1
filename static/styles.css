@@ -88,6 +88,20 @@ NAVBAR
   color: #FFF;
 }
 
+.dropdown-menu, .dropdown-menu a {
+  background-color: #7EB1D4;
+  color: #FFF;
+  font-weight: 700;
+}
+
+.dropdown-menu p {
+  font-size: 14px;
+  margin-left: 24px;
+  margin-right: 24px;
+  color: #000;
+  font-weight: 400;
+}
+
 /*
 ==========================
 SEARCH BAR
