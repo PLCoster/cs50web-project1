@@ -254,12 +254,20 @@ def book_details(book_id):
 def user_details(user_id):
     """Display all the reviews written by a single user"""
 
+    # Get the username of the user:
+    username = db.execute("SELECT username FROM users WHERE id=:user_id", {"user_id": user_id}).fetchone()
+
+    # If username does not exist return to homepage with apology:
+    if not username:
+        flash("Sorry but this user does not exist!")
+        return redirect("/")
+
     # Get all reviews by the user reviewer details for the Book:
     reviews = db.execute("SELECT users.username, books.id, books.isbn, books.title, books.author, reviews.text, reviews.date, reviews.rating FROM users INNER JOIN reviews ON users.id=reviews.user_id INNER JOIN books ON reviews.book_id = books.id WHERE users.id=:user_id ORDER BY reviews.date DESC", {"user_id": user_id}).fetchall()
 
     reviews = add_star_img(reviews)
 
-    return render_template("user_details.html", reviews=reviews)
+    return render_template("user_details.html", username=username, reviews=reviews)
 
 
 @app.route("/search", methods=["POST"])

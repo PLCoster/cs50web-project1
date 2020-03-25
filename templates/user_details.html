@@ -1,35 +1,73 @@
 {% extends "layout.html" %}
 
-{% block title %}User Reviews: {{reviews[0][0]}} {% endblock %}
+{% block title %}User Reviews: {{username[0]}} {% endblock %}
 
 {% block main %}
 <!--User Reviews Container-->
   <div class="review container text-left">
-    <h2>Reviews by {{reviews[0][0]}}:</h2>
-    {% for review in reviews %}
-    <div class="row">
-      <div class="col-md-2">
-        <div class="card mb-4 shadow-sm">
-          <a href="/book_details/{{review[1]}}">
-          <img src="http://covers.openlibrary.org/b/isbn/{{review[2]}}-L.jpg?default=false"  class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
-          </a>
+    {% if reviews and session.username != username %}
+      <h2>Reviews by {{username[0]}}:</h2>
+      <hr>
+      {% for review in reviews %}
+        <div class="row">
+          <div class="col-md-2">
+            <div class="card mb-4 shadow-sm">
+              <a href="/book_details/{{review[1]}}">
+              <img src="http://covers.openlibrary.org/b/isbn/{{review[2]}}-L.jpg?default=false"  class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
+              </a>
+            </div>
+          </div>
+          <div class="col-md-10">
+            <a href="/book_details/{{review[1]}}">
+              <h4 class="card-title">{{ review[3] }}</h4>
+            </a>
+            <a href="/author_details/{{ review[4] }}">
+              <p class="card-subtitle">{{ review[4] }}</p>
+            </a>
+            <hr>
+            <h5><img class="bdstar-rating" src="/static/{{ review[8] }}" alt="star rating"> - by {{ review[0] }}</h5>
+            <p class="date">Reviewed {{ review[6] }}</p>
+            <p>{{ review[5] }}</p>
+          </div>
         </div>
-      </div>
-      <div class="col-md-10">
-        <a href="/book_details/{{review[1]}}">
-          <h4 class="card-title">{{ review[3] }}</h4>
-        </a>
-        <a href="/author_details/{{ review[4] }}">
-          <p class="card-subtitle">{{ review[4] }}</p>
-        </a>
         <hr>
-        <h5><img class="bdstar-rating" src="/static/{{ review[8] }}" alt="star rating"> - by {{ review[0] }}</h5>
-        <p class="date">Reviewed {{ review[6] }}</p>
-        <p>{{ review[5] }}</p>
-      </div>
-    </div>
+      {% endfor %}
+    {% elif reviews and session.username == username[0] %}
+    <h2>Your reviews:</h2>
+      <hr>
+      {% for review in reviews %}
+        <div class="row">
+          <div class="col-md-2">
+            <div class="card mb-4 shadow-sm">
+              <a href="/book_details/{{review[1]}}">
+              <img src="http://covers.openlibrary.org/b/isbn/{{review[2]}}-L.jpg?default=false"  class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
+              </a>
+            </div>
+          </div>
+          <div class="col-md-10">
+            <a href="/book_details/{{review[1]}}">
+              <h4 class="card-title">{{ review[3] }}</h4>
+            </a>
+            <a href="/author_details/{{ review[4] }}">
+              <p class="card-subtitle">{{ review[4] }}</p>
+            </a>
+            <hr>
+            <h5><img class="bdstar-rating" src="/static/{{ review[8] }}" alt="star rating"> - by {{ review[0] }}</h5>
+            <p class="date">Reviewed {{ review[6] }}</p>
+            <p>{{ review[5] }}</p>
+          </div>
+        </div>
+        <hr>
+      {% endfor %}
+    {% elif not reviews and session.username == username[0] %}
+    <h2>Your reviews:</h2>
     <hr>
-    {% endfor %}
+    <h3>You have not made any reviews yet! Go to a books details page you have read to leave a review!</h3>
+    {% else %}
+    <h2>Reviews by {{username[0]}}:</h2>
+    <hr>
+    <h3>This user has not reviewed any books yet! Check back later!</h3>
+    {% endif %}
   </div>
 {% endblock %}
 
