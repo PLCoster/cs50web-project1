@@ -262,6 +262,51 @@ def book_details(book_id):
 
     return render_template("book_details.html", book=book, reviews=reviews, good_reads=good_reads, user_review=user_review)
 
+@app.route("/review/<book_id>", methods=["POST"])
+def add_review(book_id):
+    """ Adds a user's book review to the database """
+
+    # Get review details and check they are valid:
+    review_text = request.form.get("review_text")
+    review_score = request.form.get("review_score")
+
+    # If no review text or no review score return to book_details:
+    if not review_text or not review_score:
+        flash("Please provide review text and score to submit a review!")
+        return redirect(f"/book_details/{book_id}")
+
+    # Check that score is a valid int:
+    try:
+        review_score = int(review_score)
+    except ValueError:
+        flash("Please provide a valid review score in the range 1-5!")
+        return redirect(f"/book_details/{book_id}")
+
+    # Check the user has not already reviewed this book:
+    if db.execute("SELECT * FROM reviews WHERE user_id=:user_id AND book_id=:book_id", {"user_id": session["user_id"], "book_id": book_id}).fetchone():
+        flash("You have already reviewed this book - please edit your current review instead!")
+        return redirect(f"/book_details/{book_id}")
+
+    # Otherwise add the review to database, update the book's score and return to the book page:
+    db.execute("INSERT INTO reviews (user_id, book_id, text, rating, date) VALUES(:user_id, :book_id, :text, :rating, CURRENT_TIMESTAMP(0))", {"user_id": session["user_id"], "book_id": book_id, "text": review_text, "rating": review_score})
+
+    # Update books table with review count and avg review score:
+    book_reviews = db.execute("SELECT COUNT(*), AVG(rating) FROM reviews WHERE book_id=:book_id", {"book_id": book_id}).fetchall()
+
+    num_reviews = book_reviews[0][0]
+    avg_review = round(float(book_reviews[0][1]),2)
+
+    db.execute("UPDATE books SET review_count=:review_count, average_rating=:average_rating WHERE id=:book_id", {"review_count": num_reviews, "average_rating": avg_review, "book_id": book_id})
+
+    # Update a user's number of reviews:
+    db.execute("UPDATE users SET num_reviews = num_reviews + 1 WHERE id=:id", {"id": session["user_id"]})
+
+    db.commit()
+
+    # Return to book details page:
+    flash("Thank you for your review! It has been added to the READ-RATE database.")
+    return redirect(f"/book_details/{book_id}")
+
 
 @app.route("/user_details/<user_id>")
 def user_details(user_id):
