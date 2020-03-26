@@ -31,8 +31,49 @@
         <h5><img class="bdstar-rating" src="/static/{{ user_review[0][3] }}" alt="star rating"> - by <a href="/user_details/{{session.user_id}}">{{ session.username }}</a></h5>
         <p class="date">Reviewed {{ user_review[0][1] }}</p>
         <p>{{ user_review[0][0] }}</p>
+        <button class="btn btn-sm btn-primary edit">Edit Your Review</button>
+        <button class="btn btn-sm btn-primary cancel">Cancel Editing</button>
+        <!-- Hidden Review Editing Form unless button is clicked -->
+        <form class="edit_review" action="/edit_review/{{book[0][0]}}" method="POST">
+          <div class="form-group review">
+            <label for="review_text">Review text:</label>
+            <textarea class="form-control" id="review_text" rows="3" name="review_text" required></textarea>
+          </div>`
+          <div class="form-group">
+            <label for="review_score">Your Rating:</label>
+            <select class="form-control custom-select-sm custom-select" id="review_score" name="review_score" autocomplete="off">
+              <option value="" disabled selected>Select Review Score!</option>
+              <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733; - Amazing!</option>
+              <option value="4">&#9733;&#9733;&#9733;&#9733;&#9734; - Loved it!</option>
+              <option value="3">&#9733;&#9733;&#9733;&#9734;&#9734; - Liked it!</option>
+              <option value="2">&#9733;&#9733;&#9734;&#9734;&#9734; - Didn't like it!</option>
+              <option value="1">&#9733;&#9734;&#9734;&#9734;&#9734; - Hated it!</option>
+            </select>
+            <button class="btn btn-sm btn-primary" type="submit">Update Review</button>
+            <a class="btn btn-sm btn-danger" href="/delete/{{book[0][0]}}">Delete Review</a>
+          </div>
+        </form>
       </div>
     </div>
+    <script>
+        $(document).ready(function(){
+          // Clicking edit button shows review edit form:
+          $(".edit").on('click', function() {
+            event.preventDefault();
+            $(".edit_review").css("display", "block");
+            $(".cancel").css("display", "inline-block");
+            $(".edit").css("display", "none");
+          })
+
+          // Clicking cancel button hides review edit form:
+          $(".cancel").on('click', function() {
+            event.preventDefault();
+            $(".edit_review").css("display", "none");
+            $(".cancel").css("display", "none");
+            $(".edit").css("display", "inline-block");
+          })
+        })
+    </script>
   {% elif session.user_id %}
     <!-- Display review input form -->
     <h4>Write your own review for {{book[0][2]}}: </h4>
@@ -51,7 +92,7 @@
           <option value="2">&#9733;&#9733;&#9734;&#9734;&#9734; - Didn't like it!</option>
           <option value="1">&#9733;&#9734;&#9734;&#9734;&#9734; - Hated it!</option>
         </select>
-        <button class="btn btn-sm btn-primary" type="submit">Submit Review</button>
+        <button class="btn btn-sm btn-primary ml-auto" type="submit">Submit Review</button>
       </div>
     </form>
   {% else %}

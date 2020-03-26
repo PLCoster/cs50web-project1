@@ -287,7 +287,29 @@ BOOK DETAILS PAGE
 
 .review .btn {
   float: right;
+  clear: both;
 }
+
+.review form {
+  clear: both;
+}
+
+.review .edit {
+  margin-bottom: 10px;
+}
+
+.cancel {
+  display: none;
+}
+
+.review .btn-danger {
+  margin: 5px 0 10px 0;
+}
+
+.edit_review {
+  display: none;
+}
+
 /*
 ==========================
 LOGIN and REGISTER
@@ -360,4 +382,23 @@ RESPONSIVE
     max-height: 100px;
     text-align: center;
   }
+}
+
+/*
+  ===========================
+  Clearfix
+  ===========================
+*/
+
+.group:before,
+.group:after {
+  content: "";
+  display: table;
+}
+.group:after {
+  clear: both;
+}
+.group {
+  clear: both;
+  *zoom: 1;
 }
