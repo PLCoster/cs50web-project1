@@ -351,6 +351,31 @@ def edit_review(book_id):
     return redirect(f"/book_details/{book_id}")
 
 
+@app.route("/delete/<book_id>", methods=["POST"])
+def delete_review(book_id):
+    """ Delete a user's Review From the Database"""
+
+    # Remove user's review for the book from the database:
+    db.execute("DELETE FROM reviews WHERE user_id=:user_id AND book_id=:book_id" , {"user_id": session["user_id"], "book_id": book_id})
+
+    # Update books table with review count and avg review score:
+    book_reviews = db.execute("SELECT COUNT(*), AVG(rating) FROM reviews WHERE book_id=:book_id", {"book_id": book_id}).fetchall()
+
+    num_reviews = book_reviews[0][0]
+    avg_review = round(float(book_reviews[0][1]),2)
+
+    db.execute("UPDATE books SET review_count=:review_count, average_rating=:average_rating WHERE id=:book_id", {"review_count": num_reviews, "average_rating": avg_review, "book_id": book_id})
+
+    # Update a user's number of reviews:
+    db.execute("UPDATE users SET num_reviews = num_reviews - 1 WHERE id=:id", {"id": session["user_id"]})
+
+    db.commit()
+
+    # Return to book details page:
+    flash("Your review has been removed!")
+    return redirect(f"/book_details/{book_id}")
+
+
 @app.route("/user_details/<user_id>")
 def user_details(user_id):
     """Display all the reviews written by a single user"""

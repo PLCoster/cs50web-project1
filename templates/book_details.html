@@ -38,7 +38,7 @@
           <div class="form-group review">
             <label for="review_text">Review text:</label>
             <textarea class="form-control" id="review_text" rows="3" name="review_text" required></textarea>
-          </div>`
+          </div>
           <div class="form-group">
             <label for="review_score">Your Rating:</label>
             <select class="form-control custom-select-sm custom-select" id="review_score" name="review_score" autocomplete="off">
@@ -50,8 +50,10 @@
               <option value="1">&#9733;&#9734;&#9734;&#9734;&#9734; - Hated it!</option>
             </select>
             <button class="btn btn-sm btn-primary" type="submit">Update Review</button>
-            <a class="btn btn-sm btn-danger" href="/delete/{{book[0][0]}}">Delete Review</a>
           </div>
+        </form>
+        <form class="edit_review delete" action="/delete/{{book[0][0]}}" method="POST">
+          <button class="btn btn-sm btn-danger" type="submit">Delete Review</button>
         </form>
       </div>
     </div>
