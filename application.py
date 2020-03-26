@@ -201,6 +201,10 @@ def register():
 def logout():
     """Log user out"""
 
+    # If user not logged in return to home:
+    if session.get("user_id") == None:
+        return redirect("/")
+
     # Forget any user_id
     session.clear()
 
@@ -266,6 +270,11 @@ def book_details(book_id):
 def add_review(book_id):
     """ Adds a user's book review to the database """
 
+    # If user not logged in return to book page:
+    if session.get("user_id") == None:
+        flash("You must be logged in to leave a review!")
+        return redirect(f"/book_details/{book_id}")
+
     # Get review details and check they are valid:
     review_text = request.form.get("review_text")
     review_score = request.form.get("review_score")
@@ -312,6 +321,11 @@ def add_review(book_id):
 def edit_review(book_id):
     """ Edit a user's book review in the database """
 
+    # If user not logged in return to book page:
+    if session.get("user_id") == None:
+        flash("You must be logged in to edit a review!")
+        return redirect(f"/book_details/{book_id}")
+
     # Get review details and check they are valid:
     review_text = request.form.get("review_text")
     review_score = request.form.get("review_score")
@@ -354,6 +368,11 @@ def edit_review(book_id):
 @app.route("/delete/<book_id>", methods=["POST"])
 def delete_review(book_id):
     """ Delete a user's Review From the Database"""
+
+    # If user not logged in return to book page:
+    if session.get("user_id") == None:
+        flash("You must be logged in to delete a review!")
+        return redirect(f"/book_details/{book_id}")
 
     # Remove user's review for the book from the database:
     db.execute("DELETE FROM reviews WHERE user_id=:user_id AND book_id=:book_id" , {"user_id": session["user_id"], "book_id": book_id})
@@ -434,6 +453,26 @@ def search():
         title_isbn = add_star_img(title_isbn)
 
     return render_template("/search_results.html", search_type=search_type, search_text=search, author=author, title_isbn=title_isbn)
+
+@app.route("/recommended")
+def recommended():
+    """ Gets some simple book recommendations for a user based on their reviews """
+
+    # If user not logged in return to home page:
+    if session.get("user_id") == None:
+        flash("You must be logged in to get book recommendations!")
+        return redirect("/")
+
+    author_rec = None
+    books_rec = None
+
+    # Pick a book that the user has reviewed 4-5 stars, and if the author has some other books, recommend up to 6 of them to the user:
+
+    author_rec = db.execute("SELECT * FROM books WHERE author IN (SELECT author FROM reviews WHERE user_id=:user_id AND rating >= 4 ORDER BY RANDOM() LIMIT 1) AND id NOT IN (SELECT book_id FROM reviews WHERE user_id=:user_id) ORDER BY RANDOM() LIMIT 6", {"user_id": session["user_id"]}).fetchall()
+
+    print(author_rec)
+
+    return redirect("/")
 
 
 @app.route("/api/<isbn>")
