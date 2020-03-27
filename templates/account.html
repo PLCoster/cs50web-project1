@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}Account Settings{% endblock %}
+
+{% block main %}
+  <!--Registration Container-->
+  <div class="register container">
+    <form class="form-signin" action="/account" method="post">
+      <img class="mb-4" src="/static/book_icon.png" alt="" width="72" height="72">
+      <h3 class="mb-3 font-weight-normal">Account Settings:</h3>
+      <hr>
+      <h4>Change your password by filling in the fields below:</h4>
+      <label for="curr-pass" class="sr-only">Current Password:</label>
+      <input type="password" id="curr-pass" class="form-control" placeholder="Current Password" name="curr-pass" required autofocus>
+      <br>
+      <label for="new-pass" class="sr-only">New Password:</label>
+      <input type="password" id="new-pass" class="form-control" placeholder="New Password" name="new-pass" required>
+      <label for="check-pass" class="sr-only">Confirm New Password</label>
+      <input type="password" id="check-pass" class="form-control" placeholder="Re-type Password" name="check-pass" required>
+      <p>Note: Passwords must have a minimum of eight characters, including at least one number and letter.</p>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Change Password</button>
+    </form>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <p class="footer-text">Background image Photo by <a href="https://www.pexels.com/@thepoorphotographer">Janko Ferlic via Pexels.</a></p>
+  <p class="footer-text">&copy; 2020 P.L.Coster. </p>
+{% endblock %}

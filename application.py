@@ -7,6 +7,7 @@ from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 
 app = Flask(__name__)
 
@@ -483,6 +484,54 @@ def recommended():
     return render_template("recommended.html", author_rec=author_rec, hr_book=hr_book, books_rec=books_rec)
 
 
+@app.route("/account", methods=["GET", "POST"])
+def account():
+    """Let users change account password"""
+
+    # If user not logged in return to home page:
+    if session.get("user_id") == None:
+        flash("You must be logged in to access account settings!")
+        return redirect("/")
+
+    # User reached route via POST (by submitting password change form):
+    if request.method == "POST":
+
+        # Get input from form:
+        curr_pass = request.form.get("curr-pass")
+        new_pass = request.form.get("new-pass")
+        confirm = request.form.get("check-pass")
+
+        # Check input fields are correct:
+        if not curr_pass or not new_pass or new_pass != confirm:
+            flash("Please fill in all password fields!")
+            return render_template("account.html")
+
+        # Get current password hash to check it matches:
+        logged_pass = db.execute("SELECT hash FROM users WHERE id=:id", {"id": session["user_id"]}).fetchone()[0]
+
+        if not check_password_hash(logged_pass, curr_pass):
+            flash("Incorrect current password entered, please try again!")
+            return render_template("account.html")
+
+        # Ensure password meets password requirements
+        elif not validate_pass(new_pass):
+            flash("New password does not meet requirements - must be at least eight chars long including one number and one letter!")
+            return render_template("account.html")
+
+        # Otherwise generate new password hash and update the password hash in DBfor this user:
+        new_pass_hash = generate_password_hash(new_pass)
+        db.execute("UPDATE users SET hash = :new_pass_hash WHERE id = :id", {"new_pass_hash": new_pass_hash, "id": session["user_id"]})
+
+        db.commit()
+
+        flash('Password successfully updated!')
+        return redirect("/")
+
+    # User reached route via GET (as by clicking acount link)
+    else:
+        return render_template("account.html")
+
+
 @app.route("/api/<isbn>")
 def book_api(isbn):
     """Get a book from the database using its ISBN"""
@@ -509,3 +558,17 @@ def book_api(isbn):
     print(book)
 
     return book[0][2]
+
+
+# Error Handler:
+def errorhandler(e):
+    """Handle error"""
+    if not isinstance(e, HTTPException):
+        e = InternalServerError()
+    flash(f"Internal Server Error! {e.name}, {e.code}")
+    return redirect("/")
+
+
+# Listen for errors
+for code in default_exceptions:
+    app.errorhandler(code)(errorhandler)
