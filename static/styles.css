@@ -237,6 +237,12 @@ a .card-subtitle {
   font-weight: 400;
 }
 
+.card img.book-cover-S, .details-book-cover-S {
+  float: left;
+  max-height: 70px;
+  margin-right: 10px;
+}
+
 /*
 ==========================
 STAR RATING IMGS
@@ -258,8 +264,8 @@ BOOK DETAILS PAGE
 ==========================
 */
 
-.book-details-image {
-  padding-bottom: 20px;
+.details-book-cover-L {
+  margin-bottom: 20px;
 }
 
 .review .bdstar-rating {
@@ -376,11 +382,47 @@ body {
 RESPONSIVE
 =============================
 */
+/* Hide large book images on small screens:*/
+@media screen and (max-width: 576px) {
+  .book-cover-L {
+    display: none;
+  }
+  .card.mb-4.shadow-sm {
+    margin-bottom: 5px !important;
+  }
+}
 
-@media screen and (max-width: 766px) {
-  .book-cover {
-    max-height: 100px;
-    text-align: center;
+@media screen and (min-width: 576px) {
+  img.book-cover-S {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .details-book-cover-L {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .details-book-cover-S {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 767px)
+{
+  #searchbar {
+    display: inline-block;
+  }
+
+  #searchbar select {
+    max-width: 80px;
+    margin-right: -5px;
+  }
+
+  #searchbar button {
+    margin-left: -15px;
   }
 }
 

@@ -11,13 +11,12 @@
       {% for review in reviews %}
         <div class="row">
           <div class="col-md-2">
-            <div class="card mb-4 shadow-sm">
               <a href="/book_details/{{review[1]}}">
-              <img src="http://covers.openlibrary.org/b/isbn/{{review[2]}}-L.jpg?default=false"  class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
+              <img src="http://covers.openlibrary.org/b/isbn/{{review[2]}}-L.jpg?default=false"  class="card-img-top details-book-cover-L" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
               </a>
-            </div>
           </div>
           <div class="col-md-10">
+            <img src="http://covers.openlibrary.org/b/isbn/{{review[2]}}-L.jpg?default=false" class="details-book-cover-S" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
             <a href="/book_details/{{review[1]}}">
               <h4 class="card-title">{{ review[3] }}</h4>
             </a>
