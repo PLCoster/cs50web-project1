@@ -468,11 +468,19 @@ def recommended():
 
     # Pick a book that the user has reviewed 4-5 stars, and if the author has some other books, recommend up to 6 of them to the user:
 
-    author_rec = db.execute("SELECT * FROM books WHERE author IN (SELECT author FROM reviews WHERE user_id=:user_id AND rating >= 4 ORDER BY RANDOM() LIMIT 1) AND id NOT IN (SELECT book_id FROM reviews WHERE user_id=:user_id) ORDER BY RANDOM() LIMIT 6", {"user_id": session["user_id"]}).fetchall()
+    author_rec = db.execute("SELECT * FROM books WHERE author IN (SELECT books.author FROM books INNER JOIN reviews ON books.id=reviews.book_id WHERE reviews.user_id=:user_id AND reviews.rating >= 4 ORDER BY RANDOM() LIMIT 1) AND id NOT IN (SELECT book_id FROM reviews WHERE user_id=:user_id) ORDER BY RANDOM() LIMIT 6", {"user_id": session["user_id"]}).fetchall()
 
-    print(author_rec)
+    author_rec = add_star_img(author_rec)
 
-    return redirect("/")
+    # Pick a book that the user has reviewed highly, find users that also reviewed this book highly, and find other books they enjoyed:
+    hr_book = db.execute("SELECT books.id, books.title, books.author FROM books INNER JOIN reviews ON books.id=reviews.book_id WHERE reviews.user_id=:user_id AND reviews.rating >= 4 ORDER BY RANDOM() LIMIT 1", {"user_id": session["user_id"]}).fetchone()
+
+    if hr_book:
+        books_rec = db.execute("SELECT * FROM books WHERE id IN (SELECT book_id FROM reviews WHERE user_id IN (SELECT user_id FROM reviews WHERE book_id=:book_id AND rating >=4 AND user_id!=:user_id) AND book_id!=:book_id GROUP BY book_id ORDER BY AVG(rating) DESC LIMIT 6)", {"book_id": hr_book[0], "user_id": session["user_id"]}).fetchall()
+
+        books_rec = add_star_img(books_rec)
+
+    return render_template("recommended.html", author_rec=author_rec, hr_book=hr_book, books_rec=books_rec)
 
 
 @app.route("/api/<isbn>")

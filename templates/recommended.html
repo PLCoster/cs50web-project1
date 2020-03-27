@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block title %} Your Book Recommendations {% endblock %}
+
+{% block main %}
+
+  <!-- Reviews Grid -->
+  <div class="container text-left">
+    <h2>Recommended Books for {{session.username}}:</h2>
+    <hr>
+    {% if author_rec %}
+      <!-- Matching Books go into one grid section-->
+      <h3>More books by <a href="/author_details/{{ author_rec[0][3] }}">{{author_rec[0][3]}}</a>:</h3>
+      <div class="row">
+        {% for book in author_rec %}
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 py-2">
+            <div class="card mb-4 shadow-sm">
+              <a href="/book_details/{{book[0]}}">
+              <img src="http://covers.openlibrary.org/b/isbn/{{book[1]}}-L.jpg?default=false" class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
+              </a>
+              <div class="card-body">
+                <a href="/book_details/{{book[0]}}">
+                  <h5 class="card-title">{{ book[2] }}</h5>
+                </a>
+                <a href="/author_details/{{ book[3] }}">
+                  <p class="card-subtitle">{{ book[3] }}</p>
+                </a>
+                <img class="star-rating" src="/static/{{ book[7] }}" alt="star rating">
+                <p class ="num-ratings">  {{ book[5] }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <!-- Placeholder -->
+      <h3>Here you can find recommendations for other books by authors you like - review a few more books to get more recommendations!</h3>
+    {% endif %}
+    <hr>
+    {% if books_rec %}
+      <!-- Matching Books go into one grid section-->
+      <h3>READ-RATE Members who enjoyed {{hr_book[2]}} also liked:</h3>
+      <div class="row">
+        {% for book in books_rec %}
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 py-2">
+            <div class="card mb-4 shadow-sm">
+              <a href="/book_details/{{book[0]}}">
+              <img src="http://covers.openlibrary.org/b/isbn/{{book[1]}}-L.jpg?default=false" class="card-img-top" alt="Book Cover Art" onerror="this.onerror=null;this.src='/static/default_cover.jpg';">
+              </a>
+              <div class="card-body">
+                <a href="/book_details/{{book[0]}}">
+                  <h5 class="card-title">{{ book[2] }}</h5>
+                </a>
+                <a href="/author_details/{{ book[3] }}">
+                  <p class="card-subtitle">{{ book[3] }}</p>
+                </a>
+                <img class="star-rating" src="/static/{{ book[7] }}" alt="star rating">
+                <p class ="num-ratings">  {{ book[5] }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <!-- Placeholder -->
+      <h3>Here you will find recommended books from users who have enjoyed the same books as you! Review a few more books to get more recommendations!</h3>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <p class="footer-text">Background image Photo by <a href="https://www.pexels.com/@thepoorphotographer">Janko Ferlic via Pexels.</a></p>
+  <p class="footer-text">&copy; 2020 P.L.Coster</p>
+{% endblock %}
