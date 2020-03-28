@@ -1,29 +1,39 @@
 /* Custom CSS Styles to override Bootstrap */
+
 /*
   ========================================
   SASS Variables
   ========================================
 */
+
+$primary-light: #7EB1D4;
+$primary-dark: #515D73;
+$primary-container: #fff;
+$text-on-prim-light: #fff;
+$text-on-container: #515D73;
+$highlight-dark: #333;
+
 /*
   ========================================
   Custom styles
   ========================================
 */
+
 html {
   position: relative;
   min-height: 100%;
 }
 
 body {
-  background-color: #fff;
-  color: #515D73;
+  background-color: $primary-container;
+  color: $text-on-container;
   font: 300 16px/22px "Lato", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-image: url("login_bg.jpg");
   margin-bottom: 150px;
 }
 
 h1, h2, h3, h4, h5 {
-  color: #515D73;
+  color: $text-on-container;
 }
 
 h1 {
@@ -41,7 +51,7 @@ h3 {
 }
 
 h4 {
-  font-size: 18px;
+  font-size:18px;
 }
 
 h5 {
@@ -57,7 +67,7 @@ cite, em {
 }
 
 .text-muted {
-  color: #515D73;
+  color: $text-on-container;
 }
 
 /*
@@ -66,35 +76,36 @@ NAVBAR
 ==========================
 */
 #navbar {
-  background-color: #7EB1D4;
+  background-color: $primary-light;
 }
 
 #logo {
   font-weight: 700;
-  color: #515D73;
+  color: $primary-dark;
 }
 
 #logo:hover {
-  color: #333;
+  color: $highlight-dark;
 }
 
 .navbar-nav .nav-item .nav-link {
   font-weight: 700;
-  color: #fff;
+  color: $text-on-prim-light;
 }
 
 .dropdown-menu {
-  background-color: #7EB1D4;
-  color: #fff;
+  background-color: $primary-light;
+  color: $text-on-prim-light;
   font-weight: 700;
-}
-.dropdown-menu p {
-  font-size: 14px;
-  margin-left: 24px;
-  margin-right: 24px;
-  margin-bottom: 0;
-  color: #333;
-  font-weight: 400;
+
+  p {
+    font-size: 14px;
+    margin-left: 24px;
+    margin-right: 24px;
+    margin-bottom: 0;
+    color: $highlight-dark;
+    font-weight: 400;
+  }
 }
 
 /*
@@ -109,20 +120,20 @@ SEARCH BAR
 .custom-select {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  border: 1px solid #515D73;
+  border: 1px solid $primary-dark;
   margin-right: -1px;
-  color: #7EB1D4;
-  background-color: #515D73;
+  color: $primary-light;
+  background-color: $primary-dark;
 }
 
 .custom-select:hover, .custom-select:focus {
-  color: #fff;
-  background-color: #515D73;
+  color: $text-on-prim-light;
+  background-color: $primary-dark;
 }
 
 .search-text {
   border-radius: 0;
-  border: 1px solid #515D73;
+  border: 1px solid $primary-dark;
   width: 220px;
 }
 
@@ -132,28 +143,33 @@ SEARCH BAR
   margin-left: -10px;
 }
 
+
 /*
 ==========================
 FOOTER
 ==========================
 */
 .footer {
-  color: #fff;
+  color: $text-on-prim-light;
   margin-top: 20px;
   padding: 10px 0 !important;
   font-weight: 400;
-  background-color: #515D73;
+  background-color: $primary-dark;
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 120px;
+
+  .footer-text {
+    margin: 2px 0;
+  }
+
+  a {
+    color: $primary-light;
+  }
+
 }
-.footer .footer-text {
-  margin: 2px 0;
-}
-.footer a {
-  color: #7EB1D4;
-}
+
 
 /*
 ===========================
@@ -161,16 +177,17 @@ CONTAINER
 ===========================
 */
 .container {
-  background-color: #fff;
+  background-color: $primary-container;
   border-radius: 10px;
-  border: 1px solid #333;
-  -webkit-box-shadow: 11px 11px 10px -4px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 11px 11px 10px -4px rgba(0, 0, 0, 0.5);
-  box-shadow: 11px 11px 10px -4px rgba(0, 0, 0, 0.5);
+  border: 1px solid $highlight-dark;
+  -webkit-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
+  -moz-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
+  box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
   margin-top: 20px;
-}
-.container h1, .container h2, .container .row {
-  padding-top: 20px;
+
+  h1, h2, .row {
+    padding-top: 20px;
+  }
 }
 
 /*
@@ -179,15 +196,15 @@ BUTTONS
 ===========================
 */
 .btn-primary {
-  color: #7EB1D4;
-  background-color: #515D73;
-  border-color: #515D73;
+  color: $primary-light;
+  background-color: $primary-dark;
+  border-color: $primary-dark;
 }
 
 .btn-primary:hover {
-  color: #fff;
-  background-color: #515D73;
-  border-color: #515D73;
+  color: $text-on-prim-light;
+  background-color: $primary-dark;
+  border-color: $primary-dark;
 }
 
 /*
@@ -195,19 +212,21 @@ BUTTONS
 CARDS
 ==========================
 */
+
 .card {
   background-color: none;
-}
-.card .num-ratings {
-  margin-left: 84px;
-  padding-bottom: none;
-  line-height: 20px;
-  font-size: 14px;
-  font-weight: 400;
+
+  .num-ratings {
+    margin-left: 84px;
+    padding-bottom: none;
+    line-height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+  }
 }
 
 .card:hover {
-  background-color: rgba(50, 50, 50, 0.03);
+  background-color:  rgba(50, 50, 50, 0.03);
 }
 
 .card-body {
@@ -216,7 +235,7 @@ CARDS
 
 a .card-subtitle {
   font-size: 12px;
-  color: #515D73;
+  color:  $text-on-container;
   text-decoration: none;
 }
 
@@ -231,6 +250,7 @@ a .card-subtitle {
 STAR RATING IMGS
 ==========================
 */
+
 .card .star-rating {
   float: left;
   width: 80px;
@@ -245,40 +265,52 @@ STAR RATING IMGS
 BOOK DETAILS PAGE
 ==========================
 */
+
 .details-book-cover-L {
   margin-bottom: 20px;
 }
 
-.review .bdstar-rating {
-  max-width: 80px;
-}
-.review h4 {
-  padding-top: 10px;
-}
-.review h5 {
-  line-height: 20px;
-  margin-bottom: 0;
-}
-.review p.date {
-  font-size: 12px;
-  font-weight: 700;
-}
-.review select {
-  max-width: 180px;
-  border-radius: 3px;
-}
-.review .btn {
-  float: right;
-  clear: both;
-}
-.review form {
-  clear: both;
-}
-.review .edit {
-  margin-bottom: 10px;
-}
-.review .btn-danger {
-  margin: 5px 0 10px 0;
+.review {
+
+  .bdstar-rating {
+    max-width: 80px;
+  }
+
+  h4 {
+    padding-top: 10px;
+  }
+
+  h5 {
+    line-height: 20px;
+    margin-bottom: 0;
+  }
+
+  p.date {
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  select {
+    max-width: 180px;
+    border-radius: 3px;
+  }
+
+  .btn {
+    float: right;
+    clear: both;
+  }
+
+  form {
+    clear: both;
+  }
+
+  .edit {
+    margin-bottom: 10px;
+  }
+
+  .btn-danger {
+    margin: 5px 0 10px 0;
+  }
 }
 
 .cancel {
@@ -294,14 +326,15 @@ BOOK DETAILS PAGE
 LOGIN, REGISTER, ACCOUNT
 ==========================
 */
+
 .login.container, .register.container {
   margin-top: 100px;
   border-radius: 10px;
-  border: 1px solid #333;
-  background-color: #fff;
-  -webkit-box-shadow: 11px 11px 10px -4px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 11px 11px 10px -4px rgba(0, 0, 0, 0.5);
-  box-shadow: 11px 11px 10px -4px rgba(0, 0, 0, 0.5);
+  border: 1px solid $highlight-dark;
+  background-color: $primary-container;
+  -webkit-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
+  -moz-box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
+  box-shadow: 11px 11px 10px -4px rgba(0,0,0,0.5);
   max-width: 420px;
 }
 
@@ -329,13 +362,13 @@ LOGIN, REGISTER, ACCOUNT
   z-index: 2;
 }
 
-.login .form-signin input[type=text], .register #inputPassword, #new-pass {
+.login .form-signin input[type="text"], .register #inputPassword, #new-pass {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.login .form-signin input[type=password], .register #checkPassword, #check-pass {
+.login .form-signin input[type="password"], .register #checkPassword, #check-pass {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -349,6 +382,7 @@ LOGIN, REGISTER, ACCOUNT
   margin-top: 20px;
 }
 
+
 /*
 =============================
 RESPONSIVE
@@ -359,27 +393,31 @@ RESPONSIVE
   .book-cover-L {
     display: none;
   }
-
   .card.mb-4.shadow-sm {
     margin-bottom: 5px !important;
   }
 }
+
 @media screen and (min-width: 576px) {
   img.book-cover-S {
     display: none;
   }
 }
+
 @media screen and (max-width: 768px) {
   .details-book-cover-L {
     display: none;
   }
 }
+
 @media screen and (min-width: 768px) {
   .details-book-cover-S {
     display: none;
   }
 }
-@media screen and (max-width: 767px) {
+
+@media screen and (max-width: 767px)
+{
   #searchbar {
     display: inline-block;
   }
@@ -393,5 +431,3 @@ RESPONSIVE
     margin-left: -15px;
   }
 }
-
-/*# sourceMappingURL=styles.css.map */
