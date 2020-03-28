@@ -541,6 +541,15 @@ def delete_account():
         flash("You must be logged in to delete your account!")
         return redirect("/")
 
+    # Check user has input their password correctly:
+    del_pass = request.form.get("del-pass")
+
+    logged_pass = db.execute("SELECT hash FROM users WHERE id=:id", {"id": session["user_id"]}).fetchone()[0]
+
+    if not check_password_hash(logged_pass, del_pass):
+        flash("Incorrect password entered for account deletion. Please try again.")
+        return render_template("account.html")
+
     # Get all of a user's reviews from the database:
     book_ids = db.execute("SELECT book_id FROM reviews WHERE user_id=:user_id", {"user_id": session["user_id"]}).fetchall()
 

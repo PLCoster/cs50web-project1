@@ -349,6 +349,10 @@ LOGIN, REGISTER, ACCOUNT
   margin-top: 20px;
 }
 
+.delete_account {
+  display: none;
+}
+
 /*
 =============================
 RESPONSIVE

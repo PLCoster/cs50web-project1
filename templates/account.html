@@ -20,9 +20,34 @@
       <p>Note: Passwords must have a minimum of eight characters, including at least one number and letter.</p>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Change Password</button>
     </form>
-    <form class="form-signin" action="/delete_account" method="post">
-      <button class="btn btn-lg btn-danger btn-block">Delete Your Account</button>
+    <form class="form-signin">
+      <button class="btn btn-lg btn-danger btn-block delete"> Delete Your Account </button>
+      <button class="btn btn-lg btn-primary btn-block cancel"> Cancel Account Deletion </button>
+    </form>
+    <form class="form-signin delete_account" action="/delete_account" method="post">
+      <label for="del-pass" class="sr-only">Enter Your Password:</label>
+      <input type="password" id="del-pass" class="form-control" placeholder="Enter Password to Confirm Deletion" name="del-pass" required>
+      <button class="btn btn-lg btn-danger btn-block" type="submit">Delete Your Account</button>
       <p style="color: red;"> Warning! Clicking the button above will permanently delete your account and all your book reviews!</p>
     </form>
   </div>
+  <script>
+    $(document).ready(function(){
+      // Clicking delete button shows account deletion form:
+      $(".delete").on('click', function() {
+        event.preventDefault();
+        $(".delete_account").css("display", "block");
+        $(".cancel").css("display", "inline-block");
+        $(".delete").css("display", "none");
+      })
+
+      // Clicking cancel button hides account deletion form:
+      $(".cancel").on('click', function() {
+        event.preventDefault();
+        $(".delete_account").css("display", "none");
+        $(".cancel").css("display", "none");
+        $(".delete").css("display", "inline-block");
+      })
+    })
+  </script>
 {% endblock %}
