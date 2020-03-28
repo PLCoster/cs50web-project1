@@ -9,6 +9,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 
+from helpers import add_star_img, validate_pass
+
 app = Flask(__name__)
 
 # Check for environment variables
@@ -27,54 +29,9 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-def add_star_img(sql_list):
-    """
-    Helper function to append correct star rating imgs to each book or review.
-    The book or review rating is the last entry in each tuple.
-    """
-
-    new_list = []
-
-    for item in sql_list:
-        new_item = list(item)
-
-        rating = item[-1]
-
-        if rating == 0:
-            new_item.append('no_rating.png')
-        else:
-            new_item.append(str(round(rating)) + '_star.png')
-        new_list.append(new_item)
-
-    return new_list
-
-
-# Password validator:
-def validate_pass(password):
-    """Checks password string for minimum length and a least one number and one letter"""
-
-    if len(password) < 8:
-        return False
-
-    letter = False
-    number = False
-    numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-    letters = list(map(chr, range(97, 123)))
-
-    for i in range(len(password)):
-        if password[i] in numbers:
-            number = True
-        if password[i].lower() in letters:
-            letter = True
-
-    if letter and number:
-        return True
-    else:
-        return False
-
-
 @app.route("/")
 def index():
+""" Home Page of the Application """
 
     # Top Rated Books - select 6 highest rated books:
     top = db.execute("SELECT * FROM books WHERE average_rating >= 4.5 ORDER BY RANDOM() LIMIT 6").fetchall()
