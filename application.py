@@ -29,9 +29,10 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
+
 @app.route("/")
 def index():
-""" Home Page of the Application """
+    """ Home Page of the Application """
 
     # Top Rated Books - select 6 highest rated books:
     top = db.execute("SELECT * FROM books WHERE average_rating >= 4.5 ORDER BY RANDOM() LIMIT 6").fetchall()
@@ -73,8 +74,6 @@ def login():
 
         # Query database for username:
         user = db.execute("SELECT * FROM users WHERE username = :username", {"username" : username}).fetchone()
-
-        print(user)
 
         # Check username exists and password is correct:
         if not user or not check_password_hash(user[2], password):
@@ -219,8 +218,6 @@ def book_details(book_id):
         user_review = db.execute("SELECT text, date, rating FROM reviews WHERE user_id=:user_id AND book_id=:book_id", {"user_id": session["user_id"], "book_id": book_id}).fetchall()
 
         user_review = add_star_img(user_review)
-
-        print(user_review)
 
     return render_template("book_details.html", book=book, reviews=reviews, good_reads=good_reads, user_review=user_review)
 
@@ -534,8 +531,7 @@ def delete_account():
 @app.route("/api/<isbn>")
 def book_api(isbn):
     """Get a book from the database using its ISBN"""
-    print("accessing API")
-    print(isbn)
+
     # Try and get book from the database:
     book = db.execute(('SELECT * '
                        'FROM books '
@@ -554,9 +550,6 @@ def book_api(isbn):
     # If book not in database, return error:
     else:
         return jsonify({"error": "Book ISBN is not in READ-RATE Database"}), 422
-
-
-    print(book)
 
     return book[0][2]
 
