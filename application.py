@@ -538,7 +538,9 @@ def book_api(isbn):
     print("accessing API")
     print(isbn)
     # Try and get book from the database:
-    book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn":isbn}).fetchall()
+    book = db.execute(('SELECT * '
+                       'FROM books '
+                       'WHERE isbn = :isbn'), {"isbn":isbn}).fetchall()
 
     # If book exists, return JSON:
     if book:
