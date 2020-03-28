@@ -532,6 +532,39 @@ def account():
         return render_template("account.html")
 
 
+@app.route("/delete_account", methods=["POST"])
+def delete_account():
+    """Deletes a users account and all their reviews from the database"""
+
+    # If user not logged in return to home page:
+    if session.get("user_id") == None:
+        flash("You must be logged in to delete your account!")
+        return redirect("/")
+
+    # Get all of a user's reviews from the database:
+    book_ids = db.execute("SELECT book_id FROM reviews WHERE user_id=:user_id", {"user_id": session["user_id"]}).fetchall()
+
+    # Delete all of the user's reviews:
+    db.execute("DELETE FROM reviews WHERE user_id=:user_id", {"user_id": session["user_id"]})
+
+    # Update all of the book avg scores in books table that have had reviews deleted:
+    for book_id in book_ids:
+        book_reviews = db.execute("SELECT COUNT(*), AVG(rating) FROM reviews WHERE book_id=:book_id", {"book_id": book_id[0]}).fetchall()
+
+        num_reviews = book_reviews[0][0] or 0
+        avg_review = round(float(book_reviews[0][1] or 0),2)
+
+        db.execute("UPDATE books SET review_count=:review_count, average_rating=:average_rating WHERE id=:book_id", {"review_count": num_reviews, "average_rating": avg_review, "book_id": book_id[0]})
+
+    # Remove the user from the user's table:
+    db.execute("DELETE FROM users WHERE id=:user_id", {"user_id": session["user_id"]})
+    db.commit()
+
+    # Log out user and return to homepage:
+    session.clear()
+    flash("Your account has been deleted and you have been logged out. Thank you for using READ-RATE!")
+    return redirect("/")
+
 @app.route("/api/<isbn>")
 def book_api(isbn):
     """Get a book from the database using its ISBN"""

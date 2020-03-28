@@ -336,7 +336,7 @@ BOOK DETAILS PAGE
 
 /*
 ==========================
-LOGIN and REGISTER
+LOGIN, REGISTER, ACCOUNT
 ==========================
 */
 
@@ -352,7 +352,7 @@ LOGIN and REGISTER
 }
 
 .login .btn, .register .btn {
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 10px;
 }
 
@@ -375,16 +375,20 @@ LOGIN and REGISTER
   z-index: 2;
 }
 
-.login .form-signin input[type="text"], .register #inputPassword {
+.login .form-signin input[type="text"], .register #inputPassword, #new-pass {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.login .form-signin input[type="password"], .register #checkPassword {
+.login .form-signin input[type="password"], .register #checkPassword, #check-pass {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.register p {
+  margin-bottom: 0;
 }
 
 .register #inputPassword {
