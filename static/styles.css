@@ -87,6 +87,12 @@ NAVBAR
   background-color: #7EB1D4;
   color: #fff;
   font-weight: 700;
+  min-width: 200px;
+}
+.dropdown-menu a {
+  background-color: #7EB1D4;
+  color: #fff;
+  font-weight: 700;
 }
 .dropdown-menu p {
   font-size: 14px;
