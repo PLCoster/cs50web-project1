@@ -38,11 +38,11 @@
           <!-- Search Bar -->
           <form class="form-inline my-2 my-lg-0" id="searchbar" action="/search" method="post" required>
             <select class="form-control custom-select-sm custom-select" name="search-type">
-              <option value="title">Title</option>
-              <option value="author">Author</option>
-              <option value="isbn">ISBN</option>
+              <option value="title" id="search-title">Title</option>
+              <option value="author" id="search-author">Author</option>
+              <option value="isbn" id="search-isbn">ISBN</option>
             </select>
-            <input class="form-control-sm mr-sm-2 search-text" type="search" placeholder="Search by Title, Author or ISBN" aria-label="Search" name="search-text" required>
+            <input class="form-control-sm mr-sm-2 search-text" type="search" placeholder="Search for books by Title" aria-label="Search" name="search-text" required>
             <button class="btn btn-primary btn-sm search" type="submit">Search</button>
           </form>
           {% if session.user_id %}
@@ -101,6 +101,24 @@
       <p class="footer-text">Additional book reviews sourced from the <a href="https://www.goodreads.com"> GoodReads API</a>.</p>
       <p class="footer-text">&copy; 2020 <a href="https://plcoster.github.io/homepage/index.html">P.L.Coster</a></p>
     </footer>
+
+    <!-- Change Placeholder SearchBar Text on Select -->
+    <script>
+      $(document).ready(function(){
+          // Searchbar search type selection alters placeholder text
+          $("#search-title").on('click', function() {
+            $(".search-text").attr("placeholder", "Search for books by Title");
+          })
+
+          $("#search-author").on('click', function() {
+            $(".search-text").attr("placeholder", "Search for books by Author");
+          })
+
+          $("#search-isbn").on('click', function() {
+            $(".search-text").attr("placeholder", "Search for books by ISBN");
+          })
+        })
+    </script>
 
     <!-- Bootstrap JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
