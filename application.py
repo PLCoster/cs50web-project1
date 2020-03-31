@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import datetime
 
 from flask import Flask, session, flash, jsonify, redirect, render_template, request
 from flask_session import Session
@@ -28,6 +29,17 @@ Session(app)
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
+
+def form_time(review_list):
+    """Function takes a list of reviews and formats the review date from a timestamp to 01 Jan 2019 etc """
+
+    for review in review_list:
+
+        print(type(review[3]))
+
+        review[3] = review[3].strftime('%d %b %Y')
+
+    return review_list
 
 
 @app.route("/")
@@ -207,6 +219,7 @@ def book_details(book_id):
     reviews = db.execute("SELECT users.id, users.username, reviews.text, reviews.date, reviews.rating FROM users INNER JOIN reviews ON users.id=reviews.user_id WHERE reviews.book_id=:book_id ORDER BY reviews.date DESC", {"book_id": book_id}).fetchall()
 
     reviews = add_star_img(reviews)
+    reviews = form_time(reviews)
 
     # Get Additional Reviews and ratings from GoodReads API:
     gr_res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": os.getenv("API_KEY"), "isbns": book[0][1]}).json()['books'][0]
@@ -215,11 +228,13 @@ def book_details(book_id):
 
     # If a user is logged in, check if they have left their own review:
     if session.get("user_id"):
-        user_review = db.execute("SELECT text, date, rating FROM reviews WHERE user_id=:user_id AND book_id=:book_id", {"user_id": session["user_id"], "book_id": book_id}).fetchall()
+        user_review = db.execute("SELECT id, user_id, text, date, rating FROM reviews WHERE user_id=:user_id AND book_id=:book_id", {"user_id": session["user_id"], "book_id": book_id}).fetchall()
 
         user_review = add_star_img(user_review)
+        user_review = form_time(user_review)
 
     return render_template("book_details.html", book=book, reviews=reviews, good_reads=good_reads, user_review=user_review)
+
 
 @app.route("/review/<book_id>", methods=["POST"])
 def add_review(book_id):
@@ -363,9 +378,10 @@ def user_details(user_id):
         return redirect("/")
 
     # Get all reviews by the user reviewer details for the Book:
-    reviews = db.execute("SELECT users.username, books.id, books.isbn, books.title, books.author, reviews.text, reviews.date, reviews.rating FROM users INNER JOIN reviews ON users.id=reviews.user_id INNER JOIN books ON reviews.book_id = books.id WHERE users.id=:user_id ORDER BY reviews.date DESC", {"user_id": user_id}).fetchall()
+    reviews = db.execute("SELECT users.username, books.id, books.isbn, reviews.date, books.title, books.author, reviews.text, reviews.rating FROM users INNER JOIN reviews ON users.id=reviews.user_id INNER JOIN books ON reviews.book_id = books.id WHERE users.id=:user_id ORDER BY reviews.date DESC", {"user_id": user_id}).fetchall()
 
     reviews = add_star_img(reviews)
+    reviews = form_time(reviews)
 
     return render_template("user_details.html", username=username, reviews=reviews)
 

@@ -29,9 +29,9 @@
     <h4>Your review for {{book[0][2]}}: </h4>
     <div class="row">
       <div class="col-md-12">
-        <h5><img class="bdstar-rating" src="/static/{{ user_review[0][3] }}" alt="star rating"> - by <a href="/user_details/{{session.user_id}}">{{ session.username }}</a></h5>
-        <p class="date">Reviewed {{ user_review[0][1] }}</p>
-        <p>{{ user_review[0][0] }}</p>
+        <h5><img class="bdstar-rating" src="/static/{{ user_review[0][5] }}" alt="star rating"> - by <a href="/user_details/{{session.user_id}}">{{ session.username }}</a></h5>
+        <p class="date">Reviewed {{ user_review[0][3] }}</p>
+        <p>{{ user_review[0][2] }}</p>
         <button class="btn btn-sm btn-primary edit">Edit Your Review</button>
         <button class="btn btn-sm btn-primary cancel">Cancel Editing</button>
         <!-- Hidden Review Editing Form unless button is clicked -->

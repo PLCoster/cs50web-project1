@@ -1,0 +1,5 @@
+import datetime
+
+test = datetime.strptime("2016-03-25 10:29:58+00:00", '%d %b %Y')
+
+print(test)
