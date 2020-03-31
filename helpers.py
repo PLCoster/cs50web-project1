@@ -43,3 +43,15 @@ def validate_pass(password):
         return True
     else:
         return False
+
+
+def form_time(review_list):
+    """Function takes a list of reviews and formats the review date from a timestamp to 01 Jan 2019 etc """
+
+    for review in review_list:
+
+        print(type(review[3]))
+
+        review[3] = review[3].strftime('%d %b %Y')
+
+    return review_list

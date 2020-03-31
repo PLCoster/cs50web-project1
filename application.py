@@ -10,7 +10,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 
-from helpers import add_star_img, validate_pass
+from helpers import add_star_img, validate_pass, form_time
 
 app = Flask(__name__)
 
@@ -456,7 +456,7 @@ def recommended():
 
 @app.route("/account", methods=["GET", "POST"])
 def account():
-    """Let users change account password"""
+    """Let users change account password and delete their account"""
 
     # If user not logged in return to home page:
     if session.get("user_id") == None:
@@ -565,7 +565,7 @@ def book_api(isbn):
         })
     # If book not in database, return error:
     else:
-        return jsonify({"error": "Book ISBN is not in READ-RATE Database"}), 422
+        return jsonify({"error": "Book ISBN is not in READ-RATE Database"}), 404
 
     return book[0][2]
 
