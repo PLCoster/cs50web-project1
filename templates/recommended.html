@@ -33,11 +33,8 @@
           </div>
         {% endfor %}
       </div>
-    {% else %}
-      <!-- Placeholder -->
-      <h3>Here you can find recommendations for other books by authors you like - review a few more books to get more recommendations!</h3>
+      <hr>
     {% endif %}
-    <hr>
     {% if books_rec %}
       <!-- Matching Books go into one grid section-->
       <h3>READ-RATE Members who enjoyed {{hr_book[1]}} also liked:</h3>
@@ -63,9 +60,10 @@
           </div>
         {% endfor %}
       </div>
-    {% else %}
+    {% endif %}
+    {% if not books_rec and not author_rec %}
       <!-- Placeholder -->
-      <h3>Here you will find recommended books from users who have enjoyed the same books as you! Review a few more books to get more recommendations!</h3>
+      <h3>Here you will find recommended books from users who have enjoyed the same books as you or more books by authors you have reviewed highly! Review a few more books to get more recommendations!</h3>
     {% endif %}
   </div>
 {% endblock %}
