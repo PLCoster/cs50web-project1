@@ -65,8 +65,8 @@ for name in namelist:
     book_id = book[0][0]
 
     # Generate a semi-random review date
-    year = str(random.randint(2015, 2020))
-    month = f'{random.randint(1, 12):02}'
+    year = str(2020)
+    month = f'{random.randint(1, 3):02}'
     day = f'{random.randint(1, 28):02}'
 
     hr  = f'{random.randint(0, 23):02}'

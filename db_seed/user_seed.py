@@ -35,7 +35,7 @@ for name in namelist:
   # If username is unique then add to database:
   if not username_test:
 
-    hash_pass = generate_password_hash("TeStUsErPasSWORd1\"3$5^")
+    hash_pass = generate_password_hash("autouserpassword\"3$5^")
 
     db.execute("INSERT INTO users (username, hash) VALUES (:username, :hash)", {"username": name, "hash": hash_pass})
 

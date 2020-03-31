@@ -14,6 +14,10 @@ print("Importing Books")
 # Open books csv file
 f = open("books.csv")
 reader = csv.reader(f)
+
+# Skip Header
+next(reader)
+
 for isbn, title, author, year in reader:
 
   # Add each book to books table

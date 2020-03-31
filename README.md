@@ -52,6 +52,43 @@ This project is a book review website called READ-RATE, built using the Flask mi
 
 The front-end of the website is styled using Bootstrap components, including their responsive grid system, card, navbar and button components, with custom styles using a Sass .scss stylesheet.
 
+Bootstrap cards are used to display book cover images, title, author name and READ-RATE review scores throughout the site. Book covers or titles can be clicked on to view more detailed information about a book. Similarly author names can be clicked on to view all books by an author. Clicking on a READ-RATE username in a  book review will take you to a page displaying all the reviews made by that user.
+
+Users can search for books by Title, Author or ISBN using the search bar. Users can create their own user profile by first registering a username and password. Once logged in they can access additional site features, like creating their own reviews for a book, as well as editing or deleting any reviews they have previously made. Users who review books can also receive some  recommendations of new books to read based on the reviews they have made.
+
+Logged in users can change their password and also delete their entire account if desired. Users can also log out from the website after they have finished using it.
+
+* application.py - the main flask application file, containing the following app route functions:
+  * index - this is the home page of the application, any user of the site viewing this page will see a selection of books from the database, including some of the top-rated books, a selection of random books, and a selection of books from a random author. This route can be accessed at any time by clicking on the READ-RATE logo in the top left of the navigation bar.
+  * login - this route allows a user to log into their profile on the READ-RATE site, using their username and password, if they have already registered. This route (and links to this route) are only accessible when a user is not logged into a profile.
+  * register - a user can register for a READ-RATE profile by choosing a username and password using the registration form. Attempted registrations are checked to ensure usernames are unique (not already in use) and also that passwords meet a minimum length and character/digit requirement before a user is successfully registered. User's passwords are not stored in the database, rather they are hashed and the hash passwords are stored. When a user tries to log in the entered password is hashed and compared to the stored hash to determine if the correct password has been entered. This route (and links to this route) are only accessible when a user is not logged into a profile.
+  * logout - this route will log out a logged-in user from their profile. Links to this route are only visible when a user is logged in.
+  * author_details - any user of the site viewing this page will see a display of all of the books by a specific author in the database. This page can be reached by clicking on any author name link throughout the READ-RATE site.
+  * book_details - this route displays details of a specific book in the READ-RATE database, including:
+    * READ-RATE review score and number of reviews
+    * Goodreads average review score and number of reviews
+    * Publication Year
+    * ISBN Number
+  Also displayed are all the individual READ-RATE reviews by READ-RATE users. If a user is signed into their account, they will also see a review form allowing them to leave a review for the book, as well as update or delete their review once they have written it.
+  * add_review/edit_review/delete_review - these app routes are accessed by logged in users via the book_details page when adding/editing/deleting their reviews. After a review is added, edited or deleted the app redirects users to the book_details page for the book they have just altered a review for.
+  * user_details - this route can be accessed by clicking on a username, which is displayed on the books_details page when a user leaves a review. This app route displays a page with all the reviews posted by a user. This route is also accessed when a logged-in user selects 'My Reviews' from the 'My READ-RATE' drop down menu, and displays all of a user's own reviews.
+  * search - this app route handles search requests made using the search bar in the navbar. Users can search the READ-RATE book database for books by either Title, Author or ISBN, by using the dropdown section of the search bar to select the search type. Up to 10 relevant search results are then displayed to the user, and books or author names can be selected to see further details on a book or an author's books.
+  * recommended - a logged in user can access this route using the My READ-RATE dropdown menu. This route uses a basic recommendation system to suggest other books to a user based on reviews they have made. Users can be recommeded other books by an author they have rated highly, and also books by users who have enjoyed the same books as them.
+  * account - a logged in user can access this route using the My READ-RATE dropdown menu. On the account page users can change their password, by first entering their current password and then their desired new password. Users can also delete their entire account (through the delete_account route) and all their reviews if desired, again this must be confirmed by entering their current password.
+  * book_api - this route acts as an API for READ-RATE. If a user accesses /api/(isbn num) with an isbn number for a book in the READ-RATE database, the app returns a JSON file with "title", "author", "(publication) year", "isbn", "(READ-RATE) review_count", "(READ-RATE) average_score" entries. If the book is not in the READ-RATE database, the app instead returns an error message and a 404 NOT FOUND status code.
+  * errorhandler - this function handles all cases where a user attempts to access a page that doesn't exist - it returns the user to the homepage with an error message flashed on the screen.
+* helpers.py - this file contains three helper functions for application.py, for adding the correct star image to a book review, validating a password meets minimum length and character requirements, and formatting SQL timestamps to a more human readable form.
+* templates folder - contains all the templates used by the various routes/pages of the app:
+  * layout.html - the base template for the whole site containing its navbar, background and footer etc. All other templates extend this template and add their own specific elements. Jinja is used where conditional statements or variables are required on a webpage.
+* static folder - this folder contains all images used on the various webpages of the site, as well as a custom stylesheet:
+  * styles.scss - an .scss style sheet that is converted to styles.css by Sass.
+* db_seed folder - this folder contains three scripts (import.py,  user_seed.py, review_seed.py), which when run in the order specified seed the database as follows:
+  * import.py - seeds the books table with book data.
+  * user_seed.py - seeds the users database with a series of usernames.
+  * reviews_seed.py - for each user, generates 10-20 random reviews for books in the READ-RATE database.
+
+
+
 
 
 
