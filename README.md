@@ -8,6 +8,8 @@
 
 The aim of this prokect was to build a book review website, where users can register a username and password and log in. Users can then search for books, leave reviews for books, and see book reviews made by others. Ratings from the external Goodreads API will also be displayed for each book. Finally the users can query for book details and reviews programmatically using the website's API.
 
+**Update April 2021** - Due to GoodReads ending their API access, Read-Rate has been updated to use web scraping to obtain the same information previously gained through the API (i.e. the average ratings for books, and the number of ratings on the GoodReads website), when viewing the details of a specific book.
+
 #### Technologies:
 
 * Back-end:
