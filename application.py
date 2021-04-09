@@ -30,17 +30,6 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-def form_time(review_list):
-    """Function takes a list of reviews and formats the review date from a timestamp to 01 Jan 2019 etc """
-
-    for review in review_list:
-
-        print(type(review[3]))
-
-        review[3] = review[3].strftime('%d %b %Y')
-
-    return review_list
-
 
 @app.route("/")
 def index():
@@ -222,7 +211,11 @@ def book_details(book_id):
     reviews = form_time(reviews)
 
     # Get Additional Reviews and ratings from GoodReads API:
-    gr_res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": os.getenv("API_KEY"), "isbns": book[0][1]}).json()['books'][0]
+    try:
+      gr_res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": os.getenv("API_KEY"), "isbns": book[0][1]}).json()['books'][0]
+    except json.decoder.JSONDecodeError:
+      flash("Error with GoodReads API!")
+      return redirect("/")
 
     good_reads = (gr_res['average_rating'], gr_res['work_ratings_count'])
 
