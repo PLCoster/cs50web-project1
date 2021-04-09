@@ -3,6 +3,7 @@ import requests
 import json
 import datetime
 
+
 from flask import Flask, session, flash, jsonify, redirect, render_template, request
 from flask_session import Session
 from sqlalchemy import create_engine
@@ -10,7 +11,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 
-from helpers import add_star_img, validate_pass, form_time
+from helpers import add_star_img, validate_pass, form_time, get_rating
 
 app = Flask(__name__)
 
@@ -210,6 +211,8 @@ def book_details(book_id):
     reviews = add_star_img(reviews)
     reviews = form_time(reviews)
 
+    """
+    # GoodReads API no longer available - Now switched to scraping the Goodreads website
     # Get Additional Reviews and ratings from GoodReads API:
     try:
       gr_res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": os.getenv("API_KEY"), "isbns": book[0][1]}).json()['books'][0]
@@ -218,6 +221,10 @@ def book_details(book_id):
       return redirect("/")
 
     good_reads = (gr_res['average_rating'], gr_res['work_ratings_count'])
+    """
+    print(book, book[0][1], type(book[0][1]))
+    # Scrape GoodReads website for additional reviews/ratings:
+    good_reads = get_rating(book[0][1])
 
     # If a user is logged in, check if they have left their own review:
     if session.get("user_id"):

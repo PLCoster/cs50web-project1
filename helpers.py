@@ -1,4 +1,6 @@
 """ Helper functions for READ-RATE applications """
+import re
+import requests
 
 def add_star_img(sql_list):
     """
@@ -49,9 +51,36 @@ def form_time(review_list):
     """Function takes a list of reviews and formats the review date from a timestamp to 01 Jan 2019 etc """
 
     for review in review_list:
-
-        print(type(review[3]))
-
         review[3] = review[3].strftime('%d %b %Y')
 
     return review_list
+
+
+def get_rating(ISBN):
+    """
+    Takes book ISBN as a string, returns average review rating scraped from
+    GoodReads website
+    """
+    # Open Library
+    # URL = f"https://openlibrary.org/isbn/{ISBN}"
+
+    # GoodReads
+    URL = f"https://www.goodreads.com/book/isbn/{ISBN}"
+
+    page = requests.get(URL)
+
+    if page.status_code == 200:
+        # Find rating value with regular expression and return
+        pattern1 = re.compile("(?:\<span itemprop=\"ratingValue\"\>s*....)([\d]\.[\d]{2})")
+        # pattern1 = re.compile("\"\>\s*([\d]\.[\d]{2})\s*\<")
+        pattern2 = re.compile("(?:\<meta itemprop=\"ratingCount\" content=\")([\d]+)")
+        m1 = re.search(pattern1, str(page.content))
+        m2 = re.search(pattern2, str(page.content))
+        print("Matches: ",m1, m2)
+        if m1 and m2:
+            rating = (m1.group(1), m2.group(1))
+            return rating
+
+    # Else no match found, return no rating
+    rating = ('N/A', 'N/A')
+    return rating
