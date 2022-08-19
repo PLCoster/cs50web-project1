@@ -13,7 +13,7 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 
 from helpers import add_star_img, validate_pass, form_time, get_rating
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='')
 
 # Check for environment variables
 if not os.getenv("DATABASE_URL"):
