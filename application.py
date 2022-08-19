@@ -13,7 +13,7 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 
 from helpers import add_star_img, validate_pass, form_time, get_rating
 
-app = Flask(__name__, static_folder='static', static_url_path='')
+app = Flask(__name__, static_folder='static')
 
 # Check for environment variables
 if not os.getenv("DATABASE_URL"):
@@ -577,6 +577,12 @@ def errorhandler(e):
         e = InternalServerError()
     flash(f"Internal Server Error! {e.name}, {e.code}")
     return redirect("/")
+
+
+# Handle static files from root:
+@app.route('/robots.txt')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
 
 
 # Listen for errors
